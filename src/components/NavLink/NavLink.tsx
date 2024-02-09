@@ -18,14 +18,12 @@ const NavLink = ({ leftIcon, rightIcon, href, children }: NavLink) => {
   return (
     <Link
       href={href}
-      className="group flex gap-2 rounded font-bold duration-200"
+      data-pathname={hrefIsTheSameAsPathname}
+      className="group flex gap-2 rounded font-bold duration-200 data-[pathname=true]:cursor-default"
     >
       {leftIcon && <>{leftIcon}</>}
 
-      <span
-        data-pathname={hrefIsTheSameAsPathname}
-        className="relative after:absolute after:bottom-0 after:left-0 after:h-1 after:w-0 after:bg-color-4 after:duration-200 group-hover:after:w-full data-[pathname=true]:cursor-default data-[pathname=true]:after:w-full dark:after:bg-color-2"
-      >
+      <span className="relative after:absolute after:bottom-0 after:left-0 after:h-1 after:w-0 after:bg-color-4 after:duration-200 group-hover:after:w-full group-data-[pathname=true]:after:w-full dark:after:bg-color-2">
         {children}
       </span>
 
