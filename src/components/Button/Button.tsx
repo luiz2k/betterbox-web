@@ -14,51 +14,44 @@ const button = tv({
     theme: {
       adaptable:
         "border border-color-4 bg-color-4 text-color-2 hover:bg-color-4/80 dark:border-color-2 dark:bg-color-2 dark:text-color-4 dark:hover:bg-color-2/80",
-
       green:
         "border border-green-500 bg-green-500/40 text-green-500 hover:bg-green-500/20",
       greenFill:
-        "border border-green-500 bg-green-500 text-green-900 hover:bg-green-600",
-
+        "border border-green-500 bg-green-500 text-green-900 hover:bg-green-500/80",
       red: "border border-red-500 bg-red-500/40 text-red-500 hover:bg-red-500/20",
-      redFill: "border border-red-500 bg-red-500 text-red-900 hover:bg-red-600",
-
+      redFill:
+        "border border-red-500 bg-red-500 text-red-900 hover:bg-red-500/80",
       orange:
         "border border-orange-500 bg-orange-500/40 text-orange-500 hover:bg-orange-500/20",
       orangeFill:
-        "border border-orange-500 bg-orange-500 text-orange-900 hover:bg-orange-600",
-
+        "border border-orange-500 bg-orange-500 text-orange-900 hover:bg-orange-500/80",
       gray: "border border-gray-500 bg-gray-500/40 text-gray-500 hover:bg-gray-500/20",
       grayFill:
-        "border border-gray-500 bg-gray-500 text-gray-900 hover:bg-gray-600",
+        "border border-gray-500 bg-gray-500 text-gray-900 hover:bg-gray-500/80",
     },
-
     textColor: {
       black: "text-slate-900",
       white: "text-slate-200",
     },
-
     paddingX: {
       small: "px-0.5",
       normal: "px-1",
       medium: "px-2",
       large: "px-3",
     },
-
     paddingY: {
       small: "py-0.5",
       normal: "py-1",
       medium: "py-2",
       large: "py-3",
     },
-
     Weight: {
       normal: "font-normal",
       bold: "font-bold",
     },
   },
   defaultVariants: {
-    theme: "adaptable",
+    theme: "greenFill",
     paddingX: "normal",
     paddingY: "normal",
     Weight: "normal",
