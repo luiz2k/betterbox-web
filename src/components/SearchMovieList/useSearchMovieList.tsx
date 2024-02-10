@@ -40,6 +40,7 @@ const useSearchMovieList = ({
     fetchNextPage,
     movies: movies.movies,
     currentPage: movies.currentPage,
+    totalPages: movies.totalPages,
   };
 };
 

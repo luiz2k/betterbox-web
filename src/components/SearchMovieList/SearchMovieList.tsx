@@ -10,7 +10,7 @@ import { Loader } from "lucide-react";
 import type { MovieListProps } from "./SearchMovieList.d";
 
 const SearchMovieList = ({ queryKey, query, initialData }: MovieListProps) => {
-  const { ref, fetchNextPage, movies, currentPage } = useMovieList({
+  const { ref, fetchNextPage, movies, currentPage, totalPages } = useMovieList({
     queryKey,
     query,
     initialData,
@@ -31,7 +31,7 @@ const SearchMovieList = ({ queryKey, query, initialData }: MovieListProps) => {
         ))}
       </section>
 
-      {currentPage < 10 && (
+      {currentPage < 10 && currentPage !== totalPages && (
         <div className="m-auto flex flex-col items-center justify-center">
           {currentPage > 1 && currentPage < 10 && <span ref={ref} />}
 
