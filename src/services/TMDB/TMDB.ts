@@ -133,8 +133,6 @@ export const getMovieById = async (
 
     const data: GetMovieResponseData = await response.json();
 
-    console.log(data);
-
     const formattedMovie: FormattedMovie = {
       title: data.title,
       tagline: data.tagline || "Não encontrado",
