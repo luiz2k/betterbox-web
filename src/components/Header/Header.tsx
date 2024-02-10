@@ -5,10 +5,32 @@ import NavLink from "../NavLink/NavLink";
 
 import { useRouter } from "next/navigation";
 
-import { Flame, Home, Menu, Popcorn, Search, SunMoon, X } from "lucide-react";
+import { useHeaderStore } from "@/stores/HeaderStore";
+
+import {
+  Computer,
+  Flame,
+  Home,
+  Menu,
+  MoonStar,
+  Popcorn,
+  Search,
+  Sun,
+  SunMoon,
+  X,
+} from "lucide-react";
 
 const Header = () => {
   const router = useRouter();
+
+  const {
+    navBar,
+    handleNavBar,
+    searchBar,
+    handleSearchBar,
+    themeMenu,
+    handleThemMenu,
+  } = useHeaderStore();
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +49,10 @@ const Header = () => {
       <div className="font-bold">LOGO</div>
 
       <div className="flex gap-5">
-        <nav className="absolute left-0 top-20 h-screen w-60 border-r bg-color-2 p-5 md:sticky md:h-auto md:w-fit md:border-none md:p-0 dark:bg-color-4">
+        <nav
+          data-nav={navBar}
+          className="absolute -left-60 top-20 h-screen w-60 border-r bg-color-2 p-5 duration-200 data-[nav=true]:left-0 md:sticky md:h-auto md:w-fit md:border-none md:p-0 dark:bg-color-4"
+        >
           <ul className=" flex flex-col gap-5 uppercase md:flex-row">
             <li>
               <NavLink href="/" leftIcon={<Home />}>
@@ -46,14 +71,18 @@ const Header = () => {
             </li>
           </ul>
 
-          <span className="absolute right-1 top-1 cursor-pointer rounded-full md:hidden">
+          <span
+            className="absolute right-1 top-1 cursor-pointer rounded-full md:hidden"
+            onClick={handleNavBar}
+          >
             <X />
           </span>
         </nav>
 
         <form
+          data-search={searchBar}
           onSubmit={handleSearch}
-          className="absolute inset-x-0 top-0 flex h-20 items-center justify-center border-b  bg-color-2 p-5 px-10 md:sticky md:h-fit md:border-none md:p-0 dark:bg-color-4"
+          className="absolute inset-x-0 -top-20 z-10 flex h-20 items-center justify-center border-b bg-color-2 p-5 px-10 duration-200 data-[search=true]:-top-0 md:sticky md:h-fit md:border-none md:p-0 dark:bg-color-4"
         >
           <div className="relative w-full">
             <input
@@ -70,7 +99,10 @@ const Header = () => {
             </button>
           </div>
 
-          <span className="absolute right-1 top-1 cursor-pointer md:hidden">
+          <span
+            className="absolute right-1 top-1 cursor-pointer md:hidden"
+            onClick={handleSearchBar}
+          >
             <X />
           </span>
         </form>
@@ -78,13 +110,37 @@ const Header = () => {
 
       <div className="flex gap-2">
         <span className="md:hidden">
-          <Button leftIcon={<Menu />} />
+          <Button leftIcon={<Menu />} onClick={handleNavBar} />
         </span>
+
         <span className="md:hidden">
-          <Button leftIcon={<Search />} />
+          <Button leftIcon={<Search />} onClick={handleSearchBar} />
         </span>
-        <span>
-          <Button leftIcon={<SunMoon />} />
+
+        <span className="relative z-0">
+          <Button leftIcon={<SunMoon />} onClick={handleThemMenu} />
+
+          {themeMenu && (
+            <menu className="absolute right-0 top-10 space-y-0.5 rounded bg-color-4 p-1 text-color-2 dark:bg-color-2 dark:text-color-4">
+              <li className="rounded-md bg-color-4">
+                <Button leftIcon={<Sun />} width="full">
+                  Claro
+                </Button>
+              </li>
+
+              <li className="rounded-md bg-color-4">
+                <Button leftIcon={<MoonStar />} width="full">
+                  Escuro
+                </Button>
+              </li>
+
+              <li className="rounded-md bg-color-4">
+                <Button leftIcon={<Computer />} width="full">
+                  Sistema
+                </Button>
+              </li>
+            </menu>
+          )}
         </span>
       </div>
     </header>
