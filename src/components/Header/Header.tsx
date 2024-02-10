@@ -1,9 +1,27 @@
+"use client";
+
 import Button from "../Button/Button";
 import NavLink from "../NavLink/NavLink";
+
+import { useRouter } from "next/navigation";
 
 import { Flame, Home, Menu, Popcorn, Search, SunMoon, X } from "lucide-react";
 
 const Header = () => {
+  const router = useRouter();
+
+  const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.target as HTMLFormElement;
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    if (!data.search) return;
+
+    router.push(`/busca/${data.search}`);
+  };
+
   return (
     <header className="fixed inset-x-0 top-0 z-10 flex h-20 items-center justify-between gap-5 border-b bg-color-2 p-5 text-base dark:bg-color-4">
       <div className="font-bold">LOGO</div>
@@ -33,10 +51,14 @@ const Header = () => {
           </span>
         </nav>
 
-        <form className="absolute inset-x-0 top-0 flex h-20 items-center justify-center border-b  bg-color-2 p-5 px-10 md:sticky md:h-fit md:border-none md:p-0 dark:bg-color-4">
+        <form
+          onSubmit={handleSearch}
+          className="absolute inset-x-0 top-0 flex h-20 items-center justify-center border-b  bg-color-2 p-5 px-10 md:sticky md:h-fit md:border-none md:p-0 dark:bg-color-4"
+        >
           <div className="relative w-full">
             <input
               type="text"
+              name="search"
               className="w-full rounded-full border py-1 pl-2 pr-8 text-color-5 md:p-0 md:pl-2 md:pr-7"
             />
 
