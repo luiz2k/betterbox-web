@@ -51,7 +51,7 @@ const button = tv({
     },
   },
   defaultVariants: {
-    theme: "greenFill",
+    theme: "adaptable",
     paddingX: "normal",
     paddingY: "normal",
     Weight: "normal",
