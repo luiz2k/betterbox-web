@@ -5,24 +5,24 @@ import { Flame, Home, Menu, Popcorn, Search, SunMoon, X } from "lucide-react";
 
 const Header = () => {
   return (
-    <header className="fixed inset-x-0 flex h-20 items-center justify-between gap-5 border-b p-5 text-base">
+    <header className="fixed inset-x-0 top-0 z-10 flex h-20 items-center justify-between gap-5 border-b bg-color-2 p-5 text-base dark:bg-color-4">
       <div className="font-bold">LOGO</div>
 
       <div className="flex gap-5">
-        <nav className="absolute left-0 top-20 h-screen w-60 border-r  bg-color-2 p-5 md:sticky md:h-auto md:w-fit md:border-none md:p-0 dark:bg-color-4">
+        <nav className="absolute left-0 top-20 h-screen w-60 border-r bg-color-2 p-5 md:sticky md:h-auto md:w-fit md:border-none md:p-0 dark:bg-color-4">
           <ul className=" flex flex-col gap-5 uppercase md:flex-row">
             <li>
               <NavLink href="/" leftIcon={<Home />}>
-                Home
+                Início
               </NavLink>
             </li>
             <li>
-              <NavLink href="/emalta" leftIcon={<Flame />}>
+              <NavLink href="/filmes/emalta" leftIcon={<Flame />}>
                 Em Alta
               </NavLink>
             </li>
             <li>
-              <NavLink href="/topfilmes" leftIcon={<Popcorn />}>
+              <NavLink href="/filmes/topfilmes" leftIcon={<Popcorn />}>
                 Top filmes
               </NavLink>
             </li>
@@ -56,13 +56,13 @@ const Header = () => {
 
       <div className="flex gap-2">
         <span className="md:hidden">
-          <Button leftIcon={<Menu />} theme="adaptable" />
+          <Button leftIcon={<Menu />} />
         </span>
         <span className="md:hidden">
-          <Button leftIcon={<Search />} theme="adaptable" />
+          <Button leftIcon={<Search />} />
         </span>
         <span>
-          <Button leftIcon={<SunMoon />} theme="adaptable" />
+          <Button leftIcon={<SunMoon />} />
         </span>
       </div>
     </header>
