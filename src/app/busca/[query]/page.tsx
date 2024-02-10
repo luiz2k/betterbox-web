@@ -1,7 +1,7 @@
 import SearchMovieList from "@/components/SearchMovieList/SearchMovieList";
 import { searchMovie } from "@/services/TMDB/TMDB";
 
-import type { Movies } from "@/services/TMDB/TMDS";
+import type { Movies } from "./page.d";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -15,7 +15,7 @@ export async function generateMetadata({
   return { title: `betterbox - ${decodedURI}` };
 }
 
-export default async function page({ params }: { params: { query: string } }) {
+export default async function Busca({ params }: { params: { query: string } }) {
   const query: string = params.query;
   const decodedURI: string = decodeURIComponent(query);
 
