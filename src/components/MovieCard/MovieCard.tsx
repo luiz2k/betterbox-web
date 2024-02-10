@@ -20,20 +20,21 @@ const MovieCard = ({
         className="group w-[10rem] rounded bg-color-4 dark:bg-color-2"
       >
         <div className="overflow-hidden rounded duration-200 group-hover:-translate-x-1 group-hover:-translate-y-1">
-          <div className="h-[14.83rem]">
+          <div className="h-[15rem]">
             <Image
               src={posterPath}
               alt={title}
               width={160}
-              height={237.27}
+              height={240}
+              priority={true}
               className="size-full object-cover"
             />
           </div>
 
           <div className="space-y-2 bg-color-3 p-1 text-sm text-color-2">
-            <h2 className="line-clamp-2 flex h-10 items-center justify-center text-center">
-              {title}
-            </h2>
+            <div className="flex h-10 items-center justify-center">
+              <h2 className="line-clamp-2  text-center">{title}</h2>
+            </div>
 
             <div className="flex justify-between gap-2">
               <p className="flex items-center gap-1">
