@@ -1,8 +1,13 @@
 import MovieList from "@/components/MovieList/MovieList";
 import { movieList } from "@/services/TMDB/TMDB";
 
+import type { Movies } from "./page.d";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = { title: "betterbox - Em Alta" };
+
 export default async function EmAlta() {
-  const movies = await movieList("popular", 1, "pt-BR");
+  const movies: Movies = await movieList("popular", 1, "pt-BR");
 
   return (
     <section className="space-y-10">
