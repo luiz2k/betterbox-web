@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 
 import { useTheme } from "next-themes";
+import { useEffect } from "react";
 
 const Header = () => {
   const {
@@ -47,6 +48,45 @@ const Header = () => {
 
     router.push(`/busca/${data.search}`);
   };
+
+  useEffect(() => {
+    if (!navBar) return;
+
+    const documentEvent = () => {
+      handleNavBar();
+    };
+
+    window.document.addEventListener("click", documentEvent);
+
+    return () => window.document.removeEventListener("click", documentEvent);
+  }, [handleNavBar, navBar]);
+
+  useEffect(() => {
+    if (!searchBar) return;
+
+    const documentEvent = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === "INPUT") return;
+
+      handleSearchBar();
+    };
+
+    window.document.addEventListener("click", documentEvent);
+
+    return () => window.document.removeEventListener("click", documentEvent);
+  }, [handleSearchBar, searchBar]);
+
+  useEffect(() => {
+    if (!themeMenu) return;
+
+    const documentEvent = () => {
+      handleThemMenu();
+    };
+
+    window.document.addEventListener("click", documentEvent);
+
+    return () => window.document.removeEventListener("click", documentEvent);
+  }, [handleThemMenu, themeMenu]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-10 flex h-20 items-center justify-between gap-5 border-b bg-color-2 p-5 text-base dark:bg-color-4">
@@ -92,7 +132,7 @@ const Header = () => {
             <input
               type="text"
               name="search"
-              className="w-full rounded-full border bg-color-2 py-1 pl-2 pr-8 text-color-5 shadow-inner md:p-0 md:pl-2 md:pr-7"
+              className="w-full rounded-full border bg-color-2 py-1 pl-2 pr-8 text-color-4 shadow-inner md:p-0 md:pl-2 md:pr-7"
             />
 
             <button
@@ -128,39 +168,39 @@ const Header = () => {
             data-animation={themeMenu}
             className="invisible absolute right-0 top-10 translate-y-2 space-y-0.5 rounded bg-color-4 p-1 text-color-2 opacity-0 duration-200 data-[animation=true]:visible data-[animation=true]:translate-y-0 data-[animation=true]:opacity-100 dark:bg-color-2 dark:text-color-4"
           >
-              <li className="rounded-md bg-color-2 dark:bg-color-4">
-                <Button
-                  leftIcon={<Sun />}
+            <li className="rounded-md bg-color-2 dark:bg-color-4">
+              <Button
+                leftIcon={<Sun />}
                 cursor="default"
-                  width="full"
-                  onClick={() => setTheme("light")}
-                >
-                  Claro
-                </Button>
-              </li>
+                width="full"
+                onClick={() => setTheme("light")}
+              >
+                Claro
+              </Button>
+            </li>
 
-              <li className="rounded-md bg-color-2 dark:bg-color-4">
-                <Button
-                  leftIcon={<MoonStar />}
+            <li className="rounded-md bg-color-2 dark:bg-color-4">
+              <Button
+                leftIcon={<MoonStar />}
                 cursor="default"
-                  width="full"
-                  onClick={() => setTheme("dark")}
-                >
-                  Escuro
-                </Button>
-              </li>
+                width="full"
+                onClick={() => setTheme("dark")}
+              >
+                Escuro
+              </Button>
+            </li>
 
-              <li className="rounded-md bg-color-2 dark:bg-color-4">
-                <Button
-                  leftIcon={<Computer />}
+            <li className="rounded-md bg-color-2 dark:bg-color-4">
+              <Button
+                leftIcon={<Computer />}
                 cursor="default"
-                  width="full"
-                  onClick={() => setTheme("system")}
-                >
-                  Sistema
-                </Button>
-              </li>
-            </menu>
+                width="full"
+                onClick={() => setTheme("system")}
+              >
+                Sistema
+              </Button>
+            </li>
+          </menu>
         </span>
       </div>
     </header>
