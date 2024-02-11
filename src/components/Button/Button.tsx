@@ -49,6 +49,9 @@ const button = tv({
       normal: "font-normal",
       bold: "font-bold",
     },
+    width: {
+      full: "w-full",
+    },
   },
   defaultVariants: {
     theme: "adaptable",
@@ -66,13 +69,21 @@ const Button = ({
   paddingX,
   paddingY,
   Weight,
+  width,
   children,
   ...props
 }: Button) => {
   return (
     <button
       {...props}
-      className={button({ theme, textColor, paddingX, paddingY, Weight })}
+      className={button({
+        theme,
+        textColor,
+        paddingX,
+        paddingY,
+        Weight,
+        width,
+      })}
     >
       {leftIcon && <>{leftIcon}</>}
       {children && <>{children}</>}
