@@ -17,26 +17,26 @@ const MovieCard = ({
     <Link href={`/filmes/${id}`} className="relative">
       <article
         title={title}
-        className="group w-[10rem] rounded bg-color-4 dark:bg-color-2"
+        className="group w-[9.3rem] rounded bg-color-4 dark:bg-color-2"
       >
         <div className="overflow-hidden rounded duration-200 group-hover:-translate-x-1 group-hover:-translate-y-1">
           <div className="h-[15rem]">
             <Image
               src={posterPath}
               alt={title}
-              width={160}
+              width={148.8}
               height={240}
               priority={true}
               className="size-full object-cover"
             />
           </div>
 
-          <div className="space-y-2 bg-color-3 p-1 text-sm text-color-2">
+          <div className="space-y-1 bg-color-3 p-1 text-sm text-color-2">
             <div className="flex h-10 items-center justify-center">
               <h2 className="line-clamp-2  text-center">{title}</h2>
             </div>
 
-            <div className="flex justify-between gap-2">
+            <div className="flex justify-between gap-1">
               <p className="flex items-center gap-1">
                 <Star className="size-4" /> {voteAverage}
               </p>
