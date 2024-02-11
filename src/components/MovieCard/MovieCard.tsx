@@ -20,12 +20,12 @@ const MovieCard = ({
         className="group w-[9.3rem] rounded bg-color-4 dark:bg-color-2"
       >
         <div className="overflow-hidden rounded duration-200 group-hover:-translate-x-1 group-hover:-translate-y-1">
-          <div className="h-[15rem]">
+          <div className="h-[13.949rem]">
             <Image
               src={posterPath}
               alt={title}
               width={148.8}
-              height={240}
+              height={0}
               priority={true}
               className="size-full object-cover"
             />
