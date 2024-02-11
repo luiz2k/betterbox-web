@@ -124,11 +124,14 @@ const Header = () => {
         <span className="relative z-0">
           <Button leftIcon={<SunMoon />} onClick={handleThemMenu} />
 
-          {themeMenu && (
-            <menu className="absolute right-0 top-10 space-y-0.5 rounded bg-color-4 p-1 text-color-2 dark:bg-color-2 dark:text-color-4">
+          <menu
+            data-animation={themeMenu}
+            className="invisible absolute right-0 top-10 translate-y-2 space-y-0.5 rounded bg-color-4 p-1 text-color-2 opacity-0 duration-200 data-[animation=true]:visible data-[animation=true]:translate-y-0 data-[animation=true]:opacity-100 dark:bg-color-2 dark:text-color-4"
+          >
               <li className="rounded-md bg-color-2 dark:bg-color-4">
                 <Button
                   leftIcon={<Sun />}
+                cursor="default"
                   width="full"
                   onClick={() => setTheme("light")}
                 >
@@ -139,6 +142,7 @@ const Header = () => {
               <li className="rounded-md bg-color-2 dark:bg-color-4">
                 <Button
                   leftIcon={<MoonStar />}
+                cursor="default"
                   width="full"
                   onClick={() => setTheme("dark")}
                 >
@@ -149,6 +153,7 @@ const Header = () => {
               <li className="rounded-md bg-color-2 dark:bg-color-4">
                 <Button
                   leftIcon={<Computer />}
+                cursor="default"
                   width="full"
                   onClick={() => setTheme("system")}
                 >
@@ -156,7 +161,6 @@ const Header = () => {
                 </Button>
               </li>
             </menu>
-          )}
         </span>
       </div>
     </header>
