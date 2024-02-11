@@ -20,9 +20,9 @@ import {
   X,
 } from "lucide-react";
 
-const Header = () => {
-  const router = useRouter();
+import { useTheme } from "next-themes";
 
+const Header = () => {
   const {
     navBar,
     handleNavBar,
@@ -31,6 +31,10 @@ const Header = () => {
     themeMenu,
     handleThemMenu,
   } = useHeaderStore();
+
+  const { setTheme } = useTheme();
+
+  const router = useRouter();
 
   const handleSearch = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -51,7 +55,7 @@ const Header = () => {
       <div className="flex gap-5">
         <nav
           data-nav={navBar}
-          className="absolute -left-60 top-20 h-screen w-60 border-r bg-color-2 p-5 duration-200 data-[nav=true]:left-0 md:sticky md:h-auto md:w-fit md:border-none md:p-0 dark:bg-color-4"
+          className="absolute -left-60 top-20 h-screen w-60 border-r bg-color-2 p-5 duration-200 data-[nav=true]:left-0 dark:bg-color-4 md:sticky md:h-auto md:w-fit md:border-none md:bg-transparent md:p-0 dark:md:bg-transparent"
         >
           <ul className=" flex flex-col gap-5 uppercase md:flex-row">
             <li>
@@ -82,13 +86,13 @@ const Header = () => {
         <form
           data-search={searchBar}
           onSubmit={handleSearch}
-          className="absolute inset-x-0 -top-20 z-10 flex h-20 items-center justify-center border-b bg-color-2 p-5 px-10 duration-200 data-[search=true]:-top-0 md:sticky md:h-fit md:border-none md:p-0 dark:bg-color-4"
+          className="absolute inset-x-0 -top-20 z-10 flex h-20 items-center justify-center border-b bg-color-2 p-5 px-10 duration-200 data-[search=true]:-top-0 dark:bg-color-4 md:sticky md:h-fit md:border-none md:bg-transparent md:p-0 dark:md:bg-transparent"
         >
           <div className="relative w-full">
             <input
               type="text"
               name="search"
-              className="w-full rounded-full border py-1 pl-2 pr-8 text-color-5 md:p-0 md:pl-2 md:pr-7"
+              className="w-full rounded-full border bg-color-2 py-1 pl-2 pr-8 text-color-5 shadow-inner md:p-0 md:pl-2 md:pr-7"
             />
 
             <button
@@ -122,20 +126,32 @@ const Header = () => {
 
           {themeMenu && (
             <menu className="absolute right-0 top-10 space-y-0.5 rounded bg-color-4 p-1 text-color-2 dark:bg-color-2 dark:text-color-4">
-              <li className="rounded-md bg-color-4">
-                <Button leftIcon={<Sun />} width="full">
+              <li className="rounded-md bg-color-2 dark:bg-color-4">
+                <Button
+                  leftIcon={<Sun />}
+                  width="full"
+                  onClick={() => setTheme("light")}
+                >
                   Claro
                 </Button>
               </li>
 
-              <li className="rounded-md bg-color-4">
-                <Button leftIcon={<MoonStar />} width="full">
+              <li className="rounded-md bg-color-2 dark:bg-color-4">
+                <Button
+                  leftIcon={<MoonStar />}
+                  width="full"
+                  onClick={() => setTheme("dark")}
+                >
                   Escuro
                 </Button>
               </li>
 
-              <li className="rounded-md bg-color-4">
-                <Button leftIcon={<Computer />} width="full">
+              <li className="rounded-md bg-color-2 dark:bg-color-4">
+                <Button
+                  leftIcon={<Computer />}
+                  width="full"
+                  onClick={() => setTheme("system")}
+                >
                   Sistema
                 </Button>
               </li>
