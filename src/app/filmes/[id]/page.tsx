@@ -31,42 +31,42 @@ export default async function Movie({ params }: { params: { id: number } }) {
         />
 
         <div className="text-center">
-          <h1 className="text-3xl">{movie.title}</h1>
+          <h1 className="text-3xl font-bold">{movie.title}</h1>
           <p className="text-lg text-color-3">{movie.tagline}</p>
         </div>
       </header>
 
       <div>
-        <h2 className="text-xl">Sinopse</h2>
+        <h2 className="text-lg font-bold">Sinopse</h2>
         <p className="text-color-3">{movie.synopsis}</p>
       </div>
 
       <article>
         <div className="flex flex-wrap gap-2">
           <div>
-            <h2>Lançamento</h2>
+            <h2 className="text-lg font-bold">Lançamento</h2>
             <p className="text-color-3">{movie.releaseDate}</p>
           </div>
 
           <div>
-            <h2>Duração</h2>
+            <h2 className="text-lg font-bold">Duração</h2>
             <p className="text-color-3">{movie.runtime}</p>
           </div>
 
           <div>
-            <h2>Generos</h2>
+            <h2 className="text-lg font-bold">Generos</h2>
             <p className="text-color-3">{movie.genres}</p>
           </div>
         </div>
 
         <div className="flex gap-2">
           <div>
-            <h2>Orçamento</h2>
+            <h2 className="text-lg font-bold">Orçamento</h2>
             <p className="text-color-3">{movie.budget}</p>
           </div>
 
           <div>
-            <h2>Bilheteria</h2>
+            <h2 className="text-lg font-bold">Bilheteria</h2>
             <p className="text-color-3">{movie.revenue}</p>
           </div>
         </div>
