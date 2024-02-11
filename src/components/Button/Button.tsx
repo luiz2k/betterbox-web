@@ -29,6 +29,9 @@ const button = tv({
       grayFill:
         "border border-gray-500 bg-gray-500 text-gray-900 hover:bg-gray-500/80",
     },
+    cursor: {
+      default: "cursor-default",
+    },
     textColor: {
       black: "text-slate-900",
       white: "text-slate-200",
@@ -65,6 +68,7 @@ const Button = ({
   leftIcon,
   rightIcon,
   theme,
+  cursor,
   textColor,
   paddingX,
   paddingY,
@@ -78,6 +82,7 @@ const Button = ({
       {...props}
       className={button({
         theme,
+        cursor,
         textColor,
         paddingX,
         paddingY,
