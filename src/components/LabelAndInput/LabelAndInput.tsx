@@ -22,7 +22,7 @@ const LabelAndInput = forwardRef<HTMLInputElement, LabelAndInputProps>(
           type={type}
           name={name}
           placeholder={placeholder}
-          className="rounded border-2 bg-color-2 px-1 text-color-4 data-[error=true]:border-red-500 data-[success=true]:border-green-500"
+          className="rounded border-2 bg-color-2 px-1 text-color-4 shadow-inner data-[error=true]:border-red-500 data-[success=true]:border-green-500"
           {...props}
         />
 
