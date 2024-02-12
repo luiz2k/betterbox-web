@@ -55,6 +55,9 @@ const button = tv({
     width: {
       full: "w-full",
     },
+    uppercase: {
+      true: "uppercase",
+    },
   },
   defaultVariants: {
     theme: "adaptable",
@@ -74,6 +77,7 @@ const Button = ({
   paddingY,
   Weight,
   width,
+  uppercase,
   children,
   ...props
 }: Button) => {
@@ -88,6 +92,7 @@ const Button = ({
         paddingY,
         Weight,
         width,
+        uppercase,
       })}
     >
       {leftIcon && <>{leftIcon}</>}
