@@ -33,7 +33,7 @@ const SignInModal = () => {
   return (
     <section
       onClick={handleSignInModal}
-      className="absolute top-0 z-10 flex h-screen w-full items-center justify-center bg-white/5 backdrop-blur-sm"
+      className="absolute top-0 z-10 flex h-screen w-full items-center justify-center bg-white/5 p-5 backdrop-blur-sm"
     >
       <div
         onClick={(event: React.MouseEvent<HTMLDivElement>) =>
