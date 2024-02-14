@@ -8,7 +8,7 @@ type AuthModalStore = {
 };
 
 export const useAuthModalStore = create<AuthModalStore>()((set) => ({
-  SignInModal: true,
+  SignInModal: false,
   handleSignInModal: () =>
     set((state) => {
       if (state.SignUpModal) state.handleSignUpModal();
