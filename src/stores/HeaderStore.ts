@@ -1,39 +1,26 @@
 import { create } from "zustand";
 
 type ThemeMenuStore = {
-  navBar: boolean;
-  handleNavBar: () => void;
+  sideBar: boolean;
+  handleSideBar: () => void;
   searchBar: boolean;
   handleSearchBar: () => void;
-  themeMenu: boolean;
-  handleThemMenu: () => void;
 };
 
 export const useHeaderStore = create<ThemeMenuStore>()((set) => ({
-  navBar: false,
-  handleNavBar: () =>
+  sideBar: false,
+  handleSideBar: () =>
     set((state) => {
       if (state.searchBar) state.handleSearchBar();
-      if (state.themeMenu) state.handleThemMenu();
 
-      return { navBar: !state.navBar };
+      return { sideBar: !state.sideBar };
     }),
 
   searchBar: false,
   handleSearchBar: () =>
     set((state) => {
-      if (state.navBar) state.handleNavBar();
-      if (state.themeMenu) state.handleThemMenu();
+      if (state.sideBar) state.handleSideBar();
 
       return { searchBar: !state.searchBar };
-    }),
-
-  themeMenu: false,
-  handleThemMenu: () =>
-    set((state) => {
-      if (state.navBar) state.handleNavBar();
-      if (state.searchBar) state.handleSearchBar();
-
-      return { themeMenu: !state.themeMenu };
     }),
 }));
