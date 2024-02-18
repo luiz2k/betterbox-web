@@ -12,6 +12,7 @@ import { z } from "zod";
 
 import { X } from "lucide-react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
@@ -31,11 +32,16 @@ const SignUpModal = () => {
 
   const values: SignUpSchema = getValues();
 
+  const router = useRouter();
+
   const handleFormSubmit = async (data: SignUpSchema) => {
     try {
       const result = await signIn("credentials", { ...data, redirect: false });
 
       if (!result?.ok) throw result;
+
+      router.refresh();
+      handleSignInModal();
     } catch (error) {
       reset();
 
