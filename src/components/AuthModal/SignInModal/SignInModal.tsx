@@ -7,6 +7,7 @@ import { signInSchema } from "@/validations/authValidation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { X } from "lucide-react";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -26,8 +27,8 @@ const SignInModal = () => {
 
   const values: SignInSchema = getValues();
 
-  const handleFormSubmit = (data: SignInSchema) => {
-    console.log(data);
+  const handleFormSubmit = async (data: SignInSchema) => {
+    signIn("credentials", { ...data, callbackUrl: "/perfil" });
   };
 
   return (
