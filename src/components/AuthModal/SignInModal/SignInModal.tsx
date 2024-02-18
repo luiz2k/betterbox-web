@@ -6,10 +6,12 @@ import { useAuthModalStore } from "@/stores/AuthModalStore";
 import { signInSchema } from "@/validations/authValidation";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { X } from "lucide-react";
 
 type SignInSchema = z.infer<typeof signInSchema>;
 
@@ -19,6 +21,8 @@ const SignInModal = () => {
   const {
     register,
     handleSubmit,
+    reset,
+    setError,
     getValues,
     formState: { errors },
   } = useForm<SignInSchema>({
@@ -27,8 +31,24 @@ const SignInModal = () => {
 
   const values: SignInSchema = getValues();
 
+  const router = useRouter();
+
   const handleFormSubmit = async (data: SignInSchema) => {
-    signIn("credentials", { ...data, callbackUrl: "/perfil" });
+    try {
+      const result = await signIn("credentials", { ...data, redirect: false });
+
+      if (!result?.ok) throw result;
+
+      router.refresh();
+      handleSignInModal();
+    } catch (error) {
+      reset();
+
+      setError("root.authError", {
+        type: "SignIn",
+        message: "E-mail ou senha inválido.",
+      });
+    }
   };
 
   return (
@@ -43,6 +63,16 @@ const SignInModal = () => {
         className="relative w-96 rounded border bg-color-2 p-5 dark:bg-color-4"
       >
         <h2 className="text-center text-xl font-bold uppercase">Entrar</h2>
+
+        {errors.root?.authError ? (
+          <p className="text-center text-sm uppercase text-red-500">
+            {errors.root.authError?.message}
+          </p>
+        ) : (
+          <p className="text-center text-sm uppercase text-color-3">
+            Faça login para continuar.
+          </p>
+        )}
 
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="py-5">
