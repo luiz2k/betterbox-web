@@ -3,31 +3,33 @@
 import Button from "../Button/Button";
 import DropDown from "../DropDown";
 
-import { useTheme } from "next-themes";
-
 import useHeader from "./useHeader";
 
 import {
   Computer,
   KeyRound,
   LogIn,
+  LogOut,
   Menu,
   MoonStar,
   Search,
+  Settings,
   Sun,
   SunMoon,
   User,
 } from "lucide-react";
 
-const SideButtons = () => {
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+
+const SideButtons = ({ session }: { session: boolean }) => {
   const {
     handleSearchBar,
     handleSideBar,
     handleSignInModal,
     handleSignUpModal,
+    setTheme,
   } = useHeader();
-
-  const { setTheme } = useTheme();
 
   return (
     <div className="flex gap-2">
@@ -64,20 +66,48 @@ const SideButtons = () => {
       </DropDown.Root>
 
       <DropDown.Root leftIcon={<User />}>
-        <DropDown.Option
-          leftIcon={<LogIn />}
-          cursor="default"
-          onClick={handleSignInModal}
-        >
-          Entrar
-        </DropDown.Option>
-        <DropDown.Option
-          leftIcon={<KeyRound />}
-          cursor="default"
-          onClick={handleSignUpModal}
-        >
-          Registrar
-        </DropDown.Option>
+        {!session && (
+          <>
+            <DropDown.Option
+              leftIcon={<LogIn />}
+              cursor="default"
+              onClick={handleSignInModal}
+            >
+              Entrar
+            </DropDown.Option>
+            <DropDown.Option
+              leftIcon={<KeyRound />}
+              cursor="default"
+              onClick={handleSignUpModal}
+            >
+              Registrar
+            </DropDown.Option>
+          </>
+        )}
+
+        {session && (
+          <>
+            <Link href="/perfil">
+              <DropDown.Option leftIcon={<User />} cursor="default">
+                Perfil
+              </DropDown.Option>
+            </Link>
+
+            <Link href="#">
+              <DropDown.Option leftIcon={<Settings />} cursor="default">
+                Configurações
+              </DropDown.Option>
+            </Link>
+
+            <DropDown.Option
+              leftIcon={<LogOut />}
+              cursor="default"
+              onClick={() => signOut()}
+            >
+              Sair
+            </DropDown.Option>
+          </>
+        )}
       </DropDown.Root>
     </div>
   );
