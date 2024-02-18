@@ -1,28 +1,50 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthOptions } from "next-auth";
-import { getUserByAccessToken, signIn } from "@/services/Batterbox/Batterbox";
+import {
+  getUserByAccessToken,
+  signIn,
+  signUp,
+} from "@/services/Batterbox/Batterbox";
 
 const options: AuthOptions = {
   pages: { signIn: "/", signOut: "/", error: "/", verifyRequest: "/" },
   providers: [
     CredentialsProvider({
       name: "Credentials",
-      credentials: { email: {}, password: {} },
+      credentials: {
+        username: {},
+        email: {},
+        password: {},
+        confirmPassword: {},
+      },
       async authorize(credentials, req) {
         if (!credentials) return null;
 
         try {
+          if (credentials.username && credentials.confirmPassword) {
+            const data = await signUp({
+              username: credentials.username,
+              email: credentials.email,
+              password: credentials.confirmPassword,
+            });
+
+            if (!data.accessToken || !data.refreshToken)
+              throw new Error("E-mail já cadastrado.");
+
+            return data;
+          }
+
           const data = await signIn({
             email: credentials.email,
             password: credentials.password,
           });
 
-          if (!data.accessToken || !data.refreshToken) return null;
+          if (!data.accessToken || !data.refreshToken)
+            throw new Error("E-mail ou senha inválido.");
 
           return data;
         } catch (error) {
           console.error(error);
-
           return null;
         }
       },
@@ -35,7 +57,7 @@ const options: AuthOptions = {
       return token;
 
       /* 
-      # Comentádo até encontrar uma solução para o problema do refresh token.
+      # Comentádo até encontrar uma solução para a persistência do token.
 
       const accessTokenIsValid: boolean =
         Date.now() < Date.parse(token.accessTokenExpiresAt);
