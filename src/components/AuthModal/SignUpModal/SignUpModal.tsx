@@ -6,10 +6,12 @@ import { signUpSchema } from "@/validations/authValidation";
 
 import { useAuthModalStore } from "@/stores/AuthModalStore";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+
+import { X } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 type SignUpSchema = z.infer<typeof signUpSchema>;
 
@@ -19,6 +21,8 @@ const SignUpModal = () => {
   const {
     register,
     handleSubmit,
+    reset,
+    setError,
     getValues,
     formState: { errors },
   } = useForm<SignUpSchema>({
@@ -27,8 +31,19 @@ const SignUpModal = () => {
 
   const values: SignUpSchema = getValues();
 
-  const handleFormSubmit = (data: SignUpSchema) => {
-    console.log(data);
+  const handleFormSubmit = async (data: SignUpSchema) => {
+    try {
+      const result = await signIn("credentials", { ...data, redirect: false });
+
+      if (!result?.ok) throw result;
+    } catch (error) {
+      reset();
+
+      setError("root.authError", {
+        type: "SignUp",
+        message: "E-mail já cadastrado.",
+      });
+    }
   };
 
   return (
@@ -43,6 +58,16 @@ const SignUpModal = () => {
         className="relative w-96 rounded border bg-color-2 p-5 dark:bg-color-4"
       >
         <h2 className="text-center text-xl font-bold uppercase">Registrar</h2>
+
+        {errors.root?.authError ? (
+          <p className="text-center text-sm uppercase text-red-500">
+            {errors.root.authError?.message}
+          </p>
+        ) : (
+          <p className="text-center text-sm uppercase text-color-3">
+            Faça registro para continuar.
+          </p>
+        )}
 
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="py-5">
