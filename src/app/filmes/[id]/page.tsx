@@ -59,7 +59,7 @@ export default async function Movie({ params }: { params: { id: number } }) {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <div>
             <h2 className="text-lg font-bold">Orçamento</h2>
             <p className="text-color-3">{movie.budget}</p>
@@ -68,6 +68,14 @@ export default async function Movie({ params }: { params: { id: number } }) {
           <div>
             <h2 className="text-lg font-bold">Bilheteria</h2>
             <p className="text-color-3">{movie.revenue}</p>
+          </div>
+
+          <div>
+            <h2 className="text-lg font-bold">Avaliação</h2>
+            <p className="flex items-center gap-1 text-color-3">
+              <Star size={16} />
+              {movie.voteAverage}
+            </p>
           </div>
         </div>
       </article>
