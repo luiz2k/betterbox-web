@@ -1,10 +1,7 @@
-"use client";
-
 import Image from "next/image";
-import { Calendar, EyeIcon, Heart, Star } from "lucide-react";
+import { Calendar, Star } from "lucide-react";
 import { MovieCardProps } from "./MovieCard.d";
 import Link from "next/link";
-import Button from "../Button/Button";
 
 const MovieCard = ({
   id,
@@ -46,34 +43,6 @@ const MovieCard = ({
               </p>
             </div>
           </div>
-
-          <span className="absolute right-0 top-0 m-1 space-y-1 duration-200 md:group-hover:opacity-100 lg:opacity-0">
-            <Button
-              theme="grayFill"
-              textColor="white"
-              paddingX="small"
-              paddingY="small"
-              title="Assistido"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <EyeIcon />
-            </Button>
-
-            <Button
-              theme="grayFill"
-              textColor="white"
-              paddingX="small"
-              paddingY="small"
-              title="Favoritar"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <Heart />
-            </Button>
-          </span>
         </div>
       </article>
     </Link>
