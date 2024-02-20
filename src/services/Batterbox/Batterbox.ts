@@ -5,13 +5,17 @@ import optionsAuth from "@/app/api/auth/[...nextauth]/options";
 import {
   AddToFavorite,
   AddToWatched,
+  GetAllWatchedMovies,
   GetFavoriteMovie,
   GetMovieWatched,
+  MoviesPromise,
   RemoveFromFavorite,
   RemoveFromWatched,
   SignIn,
   SignUp,
+  getAllWatchedMoviesData,
 } from "./Betterbox";
+import { getMovieById } from "../TMDB/TMDB";
 
 const apiBaseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
@@ -204,10 +208,60 @@ export const getMovieWatched = async (data: GetMovieWatched) => {
   }
 };
 
-export const addToFavorite = async (data: AddToFavorite) => {
+export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
   const session = await getServerSession(optionsAuth);
 
-  console.log(session);
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+    next: { tags: ["getMovieWatched"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/user/getAllWatchedMovies`,
+      options,
+    );
+
+    const data: getAllWatchedMoviesData = await response.json();
+
+    if (data.data) {
+      const moviesPromise: Promise<MoviesPromise>[] = data.data.map(
+        async (movie) => {
+          const getMovie = await getMovieById(movie.movieId, "pt-BR");
+
+          return {
+            title: getMovie.title,
+            backgroundPath: getMovie.backgroundPath,
+            watchedDate: movie.watchedDate,
+          };
+        },
+      );
+
+      const movies: MoviesPromise[] = await Promise.all(moviesPromise);
+
+      return {
+        ...data,
+        data: movies,
+      };
+    }
+
+    return {
+      status: data.status,
+      message: data.message,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const addToFavorite = async (data: AddToFavorite) => {
+  const session = await getServerSession(optionsAuth);
 
   const options = {
     method: "POST",
