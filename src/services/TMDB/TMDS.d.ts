@@ -40,6 +40,7 @@ export type GetMovieResponseData = {
   title: string;
   tagline: string;
   backdrop_path: string;
+  poster_path: string;
   release_date: string;
   overview: string;
   vote_average: number;
@@ -53,6 +54,7 @@ export type FormattedMovie = {
   title: string;
   tagline: string;
   backgroundPath: string;
+  posterPath: string;
   releaseDate: string;
   synopsis: string;
   voteAverage: number;

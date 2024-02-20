@@ -139,6 +139,9 @@ export const getMovieById = async (
       backgroundPath: data.backdrop_path
         ? movieImage(data.backdrop_path, "original")
         : "/backgroundNotFound.svg",
+      posterPath: data.poster_path
+        ? movieImage(data.poster_path, "w500")
+        : "/posterNotFound.svg",
       releaseDate: data.release_date.split("-").reverse().join("/"),
       synopsis: data.overview || "Não encontrado",
       voteAverage: Number(data.vote_average.toFixed(1)),
