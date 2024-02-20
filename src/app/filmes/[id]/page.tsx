@@ -1,32 +1,133 @@
 import { getMovieById } from "@/services/TMDB/TMDB";
 import Image from "next/image";
-
 import { Metadata } from "next";
-
+import Button from "@/components/Button/Button";
+import { EyeIcon, Heart, Star } from "lucide-react";
+import { revalidateTag } from "next/cache";
+import {
+  addToFavorite,
+  addToWatched,
+  getFavoriteMovie,
+  getMovieWatched,
+  removeFromFavorite,
+  removeFromWatched,
+} from "@/services/Batterbox/Batterbox";
+import type { Watched, Favorite } from "./page.d";
 export async function generateMetadata({
   params,
 }: {
-  params: { id: number };
+  params: { id: string };
 }): Promise<Metadata> {
-  const id: number = params.id;
+  const id: number = Number(params.id);
 
   const movie = await getMovieById(id, "pt-BR");
 
   return { title: `betterbox - ${movie.title}` };
 }
 
-export default async function Movie({ params }: { params: { id: number } }) {
-  const id: number = params.id;
+export default async function Movie({ params }: { params: { id: string } }) {
+  const id: number = Number(params.id);
   const movie = await getMovieById(id, "pt-BR");
+
+  const watched: Watched = await getMovieWatched({ movieId: id });
+  const favorite: Favorite = await getFavoriteMovie({ movieId: id });
+
+  console.log(favorite);
+
+  const handleWatched = async (): Promise<void> => {
+    "use server";
+
+    if (watched.status === "success") {
+      await removeFromWatched({ movieId: id });
+      return revalidateTag("getMovieWatched");
+    }
+
+    await addToWatched({ movieId: id });
+    return revalidateTag("getMovieWatched");
+  };
+
+  const handleFavorite = async (): Promise<void> => {
+    "use server";
+
+    if (favorite.status === "success") {
+      await removeFromFavorite({ movieId: id });
+      return revalidateTag("getFavoriteMovie");
+    }
+
+    await addToFavorite({ movieId: id });
+    return revalidateTag("getFavoriteMovie");
+  };
 
   return (
     <section className="m-auto max-w-3xl space-y-2">
+      <article className="flex flex-wrap items-end justify-between gap-2">
+        {watched.data && (
+          <div>
+            <h2 className="text-lg font-bold">Assistido</h2>
+            <p className="text-color-3">{watched.data.watchedDate}</p>
+          </div>
+        )}
+
+        <div className="flex gap-2">
+          {watched.status === "error" ? (
+            <form action={handleWatched}>
+              <Button
+                leftIcon={<EyeIcon />}
+                theme="grayFill"
+                textColor="white"
+                type="submit"
+              >
+                Assistido
+              </Button>
+            </form>
+          ) : (
+            <>
+              <form action={handleWatched}>
+                <Button
+                  leftIcon={<EyeIcon />}
+                  theme="grayFill"
+                  textColor="white"
+                  type="submit"
+                >
+                  Remover
+                </Button>
+              </form>
+            </>
+          )}
+
+          {favorite.status === "error" ? (
+            <form action={handleFavorite}>
+              <Button
+                leftIcon={<Heart />}
+                theme="grayFill"
+                textColor="white"
+                type="submit"
+              >
+                Favoritar
+              </Button>
+            </form>
+          ) : (
+            <form action={handleFavorite}>
+              <Button
+                leftIcon={<Heart />}
+                theme="grayFill"
+                textColor="white"
+                type="submit"
+              >
+                Remover
+              </Button>
+            </form>
+          )}
+        </div>
+      </article>
+
       <header className="space-y-2">
         <Image
           src={movie.backgroundPath}
           alt={movie.title}
           width={768}
           height={432}
+          priority
           className="rounded"
         />
 
@@ -36,10 +137,10 @@ export default async function Movie({ params }: { params: { id: number } }) {
         </div>
       </header>
 
-      <div>
+      <article>
         <h2 className="text-lg font-bold">Sinopse</h2>
         <p className="text-color-3">{movie.synopsis}</p>
-      </div>
+      </article>
 
       <article>
         <div className="flex flex-wrap gap-2">
