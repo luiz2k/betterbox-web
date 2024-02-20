@@ -97,8 +97,101 @@ export const changeUsername = async () => {};
 export const changeEmail = async () => {};
 export const changePassword = async () => {};
 
-export const addFavorite = async () => {};
-export const removeFavorite = async () => {};
+export const addToWatched = async (data: AddToWatched) => {
+  const session = await getServerSession(optionsAuth);
 
-export const addWatched = async () => {};
-export const removeWatched = async () => {};
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/addToWatched`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const removeFromWatched = async (data: RemoveFromWatched) => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/removeFromWatched`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getMovieWatched = async (data: GetMovieWatched) => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+    next: { tags: ["getMovieWatched"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/getMovieWatched`,
+      options,
+    );
+
+    const data = await response.json();
+
+    if (data.data) {
+      const dateOptions = { timeZone: "America/Sao_Paulo" };
+
+      const fullDate: Date = new Date(data.data.watchedDate);
+
+      const date: string = fullDate.toLocaleDateString("pt-BR", dateOptions);
+      const time: string = fullDate.toLocaleTimeString("pt-BR", dateOptions);
+
+      return {
+        ...data,
+        data: {
+          watchedDate: `${date} às ${time}`,
+        },
+      };
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
