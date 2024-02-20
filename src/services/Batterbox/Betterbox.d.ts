@@ -24,6 +24,6 @@ export type getAllWatchedMoviesData = {
 
 export type MoviesPromise = {
   title: string;
-  backgroundPath: string;
+  posterPath: string;
   watchedDate: string;
 };

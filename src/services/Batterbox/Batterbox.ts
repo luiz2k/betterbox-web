@@ -236,7 +236,7 @@ export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
 
           return {
             title: getMovie.title,
-            backgroundPath: getMovie.backgroundPath,
+            posterPath: getMovie.posterPath,
             watchedDate: movie.watchedDate,
           };
         },
