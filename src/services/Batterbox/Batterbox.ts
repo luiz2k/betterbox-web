@@ -1,8 +1,17 @@
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
-import nextAuthOptions from "@/app/api/auth/[...nextauth]/options";
+import optionsAuth from "@/app/api/auth/[...nextauth]/options";
 
-import { SignIn, SignUp } from "./Betterbox";
+import {
+  AddToFavorite,
+  AddToWatched,
+  GetFavoriteMovie,
+  GetMovieWatched,
+  RemoveFromFavorite,
+  RemoveFromWatched,
+  SignIn,
+  SignUp,
+} from "./Betterbox";
 
 const apiBaseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
@@ -195,3 +204,84 @@ export const getMovieWatched = async (data: GetMovieWatched) => {
   }
 };
 
+export const addToFavorite = async (data: AddToFavorite) => {
+  const session = await getServerSession(optionsAuth);
+
+  console.log(session);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/addToFavorite`,
+      options,
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const removeFromFavorite = async (data: RemoveFromFavorite) => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/removeFromFavorite`,
+      options,
+    );
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getFavoriteMovie = async (data: GetFavoriteMovie) => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+    next: { tags: ["getFavoriteMovie"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/getFavoriteMovie`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
