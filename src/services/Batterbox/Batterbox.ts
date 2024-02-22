@@ -235,6 +235,7 @@ export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
           const getMovie = await getMovieById(movie.movieId, "pt-BR");
 
           return {
+            id: movie.movieId,
             title: getMovie.title,
             posterPath: getMovie.posterPath,
             watchedDate: movie.watchedDate,
