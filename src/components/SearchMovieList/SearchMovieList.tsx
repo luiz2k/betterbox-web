@@ -1,7 +1,7 @@
 "use client";
 
 import Button from "../Button/Button";
-import MovieCard from "../MovieCard/MovieCard";
+import MovieCard from "@/components/MovieCard/index";
 
 import useMovieList from "./useSearchMovieList";
 
@@ -18,18 +18,21 @@ const SearchMovieList = ({ queryKey, query, initialData }: MovieListProps) => {
 
   return (
     <>
-      <section className="flex flex-wrap justify-center gap-5">
+      <div className="flex flex-wrap justify-center gap-5">
         {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            id={movie.id}
-            title={movie.title}
-            posterPath={movie.posterPath}
-            releaseDate={movie.releaseDate}
-            voteAverage={movie.voteAverage}
-          />
+          <MovieCard.Root title={movie.title} id={movie.id} key={movie.id}>
+            <MovieCard.Image posterPath={movie.posterPath} alt={movie.title} />
+            <MovieCard.Infos>
+              <MovieCard.Title title={movie.title} />
+
+              <MovieCard.VoteAverageAndReleaseDate>
+                <MovieCard.VoteAverage voteAverage={movie.voteAverage} />
+                <MovieCard.ReleaseDate releaseDate={movie.releaseDate} />
+              </MovieCard.VoteAverageAndReleaseDate>
+            </MovieCard.Infos>
+          </MovieCard.Root>
         ))}
-      </section>
+      </div>
 
       {currentPage < 10 && currentPage !== totalPages && (
         <div className="m-auto flex flex-col items-center justify-center">
