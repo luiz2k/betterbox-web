@@ -9,9 +9,7 @@ export type AddToFavorite = { movieId: number };
 export type RemoveFromFavorite = { movieId: number };
 export type GetFavoriteMovie = { movieId: number };
 
-export type GetAllWatchedMovies = {
-  userId: number;
-};
+export type GetAllWatchedMovies = { userId: number };
 
 export type getAllWatchedMoviesData = {
   status: "success" | "error";
@@ -22,8 +20,25 @@ export type getAllWatchedMoviesData = {
   }[];
 };
 
+export type GetAllFavoriteMovies = GetAllWatchedMovies;
+
+export type GetAllFavoriteMoviesData = {
+  status: "success" | "error";
+  message: string;
+  data?: {
+    movieId: number;
+  }[];
+};
+
 export type MoviesPromise = {
+  id: number;
   title: string;
   posterPath: string;
   watchedDate: string;
+};
+
+export type FavoriteMoviesPromise = {
+  id: number;
+  title: string;
+  posterPath: string;
 };

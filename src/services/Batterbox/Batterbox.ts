@@ -9,11 +9,14 @@ import {
   GetFavoriteMovie,
   GetMovieWatched,
   MoviesPromise,
+  FavoriteMoviesPromise,
   RemoveFromFavorite,
   RemoveFromWatched,
   SignIn,
   SignUp,
   getAllWatchedMoviesData,
+  GetAllFavoriteMoviesData,
+  GetAllFavoriteMovies,
 } from "./Betterbox";
 import { getMovieById } from "../TMDB/TMDB";
 
@@ -335,6 +338,58 @@ export const getFavoriteMovie = async (data: GetFavoriteMovie) => {
     const data = await response.json();
 
     return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify(data),
+    next: { tags: ["getMovieWatched"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/user/getAllFavoriteMovies`,
+      options,
+    );
+
+    const data: GetAllFavoriteMoviesData = await response.json();
+
+    if (data.data) {
+      const moviesPromise: Promise<FavoriteMoviesPromise>[] = data.data.map(
+        async (movie) => {
+          const getMovie = await getMovieById(movie.movieId, "pt-BR");
+
+          return {
+            id: movie.movieId,
+            title: getMovie.title,
+            posterPath: getMovie.posterPath,
+          };
+        },
+      );
+
+      const movies: FavoriteMoviesPromise[] = await Promise.all(moviesPromise);
+
+      return {
+        ...data,
+        data: movies,
+      };
+    }
+
+    return {
+      status: data.status,
+      message: data.message,
+    };
   } catch (error) {
     console.error(error);
     throw error;
