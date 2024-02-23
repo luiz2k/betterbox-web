@@ -213,6 +213,7 @@ export const getMovieWatched = async (data: GetMovieWatched) => {
 
 export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
   const session = await getServerSession(optionsAuth);
+  const page = data.page;
 
   const options = {
     method: "POST",
@@ -226,11 +227,12 @@ export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
 
   try {
     const response: Response = await fetch(
-      `${apiBaseURL}/user/getAllWatchedMovies`,
+      `${apiBaseURL}/user/getAllWatchedMovies?page=${page}`,
       options,
     );
 
     const data: getAllWatchedMoviesData = await response.json();
+    console.log(data);
 
     if (data.data) {
       const moviesPromise: Promise<MoviesPromise>[] = data.data.map(
@@ -346,6 +348,7 @@ export const getFavoriteMovie = async (data: GetFavoriteMovie) => {
 
 export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
   const session = await getServerSession(optionsAuth);
+  const page: number | undefined = data.page;
 
   const options = {
     method: "POST",
@@ -359,7 +362,7 @@ export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
 
   try {
     const response: Response = await fetch(
-      `${apiBaseURL}/user/getAllFavoriteMovies`,
+      `${apiBaseURL}/user/getAllFavoriteMovies?page=${page}`,
       options,
     );
 

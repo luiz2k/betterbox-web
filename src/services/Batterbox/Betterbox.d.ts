@@ -9,7 +9,7 @@ export type AddToFavorite = { movieId: number };
 export type RemoveFromFavorite = { movieId: number };
 export type GetFavoriteMovie = { movieId: number };
 
-export type GetAllWatchedMovies = { userId: number };
+export type GetAllWatchedMovies = { userId: number; page?: number };
 
 export type getAllWatchedMoviesData = {
   status: "success" | "error";
