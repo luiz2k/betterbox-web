@@ -1,23 +1,14 @@
-import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import optionsAuth from "@/app/api/auth/[...nextauth]/options";
 
 import {
-  AddToFavorite,
-  AddToWatched,
-  GetAllWatchedMovies,
-  GetFavoriteMovie,
-  GetMovieWatched,
-  MoviesPromise,
-  FavoriteMoviesPromise,
-  RemoveFromFavorite,
-  RemoveFromWatched,
   SignIn,
   SignUp,
-  getAllWatchedMoviesData,
-  GetAllFavoriteMoviesData,
-  GetAllFavoriteMovies,
+  GetAllMoviesData,
+  MoviesPromise,
+  MovieId,
 } from "./Betterbox";
+
 import { getMovieById } from "../TMDB/TMDB";
 
 const apiBaseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
@@ -113,7 +104,7 @@ export const changeUsername = async () => {};
 export const changeEmail = async () => {};
 export const changePassword = async () => {};
 
-export const addToWatched = async (data: AddToWatched) => {
+export const addToWatched = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -140,7 +131,7 @@ export const addToWatched = async (data: AddToWatched) => {
   }
 };
 
-export const removeFromWatched = async (data: RemoveFromWatched) => {
+export const removeFromWatched = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -167,7 +158,7 @@ export const removeFromWatched = async (data: RemoveFromWatched) => {
   }
 };
 
-export const getMovieWatched = async (data: GetMovieWatched) => {
+export const getMovieWatched = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -211,62 +202,7 @@ export const getMovieWatched = async (data: GetMovieWatched) => {
   }
 };
 
-export const getAllWatchedMovies = async (data: GetAllWatchedMovies) => {
-  const session = await getServerSession(optionsAuth);
-  const page = data.page;
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${session?.accessToken}`,
-    },
-    body: JSON.stringify(data),
-    next: { tags: ["getMovieWatched"] },
-  };
-
-  try {
-    const response: Response = await fetch(
-      `${apiBaseURL}/user/getAllWatchedMovies?page=${page}`,
-      options,
-    );
-
-    const data: getAllWatchedMoviesData = await response.json();
-    console.log(data);
-
-    if (data.data) {
-      const moviesPromise: Promise<MoviesPromise>[] = data.data.map(
-        async (movie) => {
-          const getMovie = await getMovieById(movie.movieId, "pt-BR");
-
-          return {
-            id: movie.movieId,
-            title: getMovie.title,
-            posterPath: getMovie.posterPath,
-            watchedDate: movie.watchedDate,
-          };
-        },
-      );
-
-      const movies: MoviesPromise[] = await Promise.all(moviesPromise);
-
-      return {
-        ...data,
-        data: movies,
-      };
-    }
-
-    return {
-      status: data.status,
-      message: data.message,
-    };
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
-export const addToFavorite = async (data: AddToFavorite) => {
+export const addToFavorite = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -292,7 +228,7 @@ export const addToFavorite = async (data: AddToFavorite) => {
   }
 };
 
-export const removeFromFavorite = async (data: RemoveFromFavorite) => {
+export const removeFromFavorite = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -318,7 +254,7 @@ export const removeFromFavorite = async (data: RemoveFromFavorite) => {
   }
 };
 
-export const getFavoriteMovie = async (data: GetFavoriteMovie) => {
+export const getFavoriteMovie = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);
 
   const options = {
@@ -346,30 +282,31 @@ export const getFavoriteMovie = async (data: GetFavoriteMovie) => {
   }
 };
 
-export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
-  const session = await getServerSession(optionsAuth);
-  const page: number | undefined = data.page;
-
+export const getAllMoviesListedByUser = async (
+  userId: number | undefined,
+  accessToken: string | undefined,
+  searchType: "watchedMovies" | "favoriteMovies" = "watchedMovies",
+  page: number = 1,
+) => {
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${session?.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
-    body: JSON.stringify(data),
-    next: { tags: ["getMovieWatched"] },
+    body: JSON.stringify({ userId: userId }),
   };
 
   try {
-    const response: Response = await fetch(
-      `${apiBaseURL}/user/getAllFavoriteMovies?page=${page}`,
+    const response = await fetch(
+      `${apiBaseURL}/user/getAll${searchType}?page=${page}`,
       options,
     );
 
-    const data: GetAllFavoriteMoviesData = await response.json();
+    const data: GetAllMoviesData = await response.json();
 
     if (data.data) {
-      const moviesPromise: Promise<FavoriteMoviesPromise>[] = data.data.map(
+      const moviesPromise: Promise<MoviesPromise>[] = data.data.map(
         async (movie) => {
           const getMovie = await getMovieById(movie.movieId, "pt-BR");
 
@@ -381,7 +318,7 @@ export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
         },
       );
 
-      const movies: FavoriteMoviesPromise[] = await Promise.all(moviesPromise);
+      const movies: MoviesPromise[] = await Promise.all(moviesPromise);
 
       return {
         ...data,
@@ -390,8 +327,8 @@ export const getAllFavoriteMovies = async (data: GetAllFavoriteMovies) => {
     }
 
     return {
-      status: data.status,
-      message: data.message,
+      ...data,
+      data: undefined,
     };
   } catch (error) {
     console.error(error);
