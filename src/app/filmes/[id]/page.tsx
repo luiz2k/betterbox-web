@@ -32,8 +32,6 @@ export default async function Movie({ params }: { params: { id: string } }) {
   const watched: Watched = await getMovieWatched({ movieId: id });
   const favorite: Favorite = await getFavoriteMovie({ movieId: id });
 
-  console.log(favorite);
-
   const handleWatched = async (): Promise<void> => {
     "use server";
 
