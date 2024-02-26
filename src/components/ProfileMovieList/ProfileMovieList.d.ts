@@ -8,7 +8,7 @@ export type ProfileMovieListProps = {
     totalPages: number;
     status: "success" | "error";
     message: string;
-    data: {
+    data?: {
       id: number;
       title: string;
       posterPath: string;
