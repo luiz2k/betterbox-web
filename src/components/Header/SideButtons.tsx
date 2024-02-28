@@ -93,7 +93,7 @@ const SideButtons = ({ session }: { session: boolean }) => {
               </DropDown.Option>
             </Link>
 
-            <Link href="#">
+            <Link href="/perfil/configuracoes">
               <DropDown.Option leftIcon={<Settings />} cursor="default">
                 Configurações
               </DropDown.Option>
