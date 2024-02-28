@@ -7,6 +7,9 @@ import {
   GetAllMoviesData,
   MoviesPromise,
   MovieId,
+  ChangeUsername,
+  ChangeEmail,
+  ChangePassword,
 } from "./Betterbox";
 
 import { getMovieById } from "../TMDB/TMDB";
@@ -100,9 +103,97 @@ export const getUserByAccessToken = async (accessToken: string) => {
   }
 };
 
-export const changeUsername = async () => {};
-export const changeEmail = async () => {};
-export const changePassword = async () => {};
+export const changeUsername = async (data: ChangeUsername) => {
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${data?.accessToken}`,
+    },
+    body: JSON.stringify({ newUsername: data.newUsername }),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/user/changeUsername`,
+      options,
+    );
+
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
+
+export const changeEmail = async (data: ChangeEmail) => {
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${data.accessToken}`,
+    },
+    body: JSON.stringify({
+      email: data.email,
+      password: data.password,
+      newEmail: data.newEmail,
+    }),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/user/changeEmail`,
+      options,
+    );
+
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
+
+export const changePassword = async (data: ChangePassword) => {
+  const options = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${data.accessToken}`,
+    },
+    body: JSON.stringify({
+      email: data.email,
+      password: data.password,
+      newPassword: data.newPassword,
+    }),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/user/changePassword`,
+      options,
+    );
+
+    if (!response.ok) throw new Error();
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+
+    throw error;
+  }
+};
 
 export const addToWatched = async (data: MovieId) => {
   const session = await getServerSession(optionsAuth);

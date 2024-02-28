@@ -20,3 +20,21 @@ export type MoviesPromise = {
   title: string;
   posterPath: string;
 };
+
+export type ChangeUsername = {
+  newUsername: string;
+  accessToken?: string;
+};
+
+export type ChangeEmail = {
+  email: string;
+  password: string;
+  newEmail: string;
+  accessToken?: string;
+};
+export type ChangePassword = {
+  email: string;
+  password: string;
+  newPassword: string;
+  accessToken?: string;
+};
