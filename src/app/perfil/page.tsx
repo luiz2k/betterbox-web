@@ -59,8 +59,8 @@ export default async function Profile() {
       {favoriteMovies.data?.length ? (
         <Carousel
           data={favoriteMovies.data}
-          title="Filmes assistidos"
-          subtitle="Filmes que você assistiu"
+          title="Filmes favoritados"
+          subtitle="Filmes que você favoritou"
           href="/perfil/favoritos"
         />
       ) : (
