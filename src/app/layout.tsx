@@ -8,6 +8,7 @@ import TanStackQueryProvider from "@/providers/TanStackQueryProvider";
 import ThemeProvider from "@/providers/ThemeProvider";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
+export const metadata = { icons: { icon: "/logo.png" } };
 
 export default function RootLayout({
   children,
