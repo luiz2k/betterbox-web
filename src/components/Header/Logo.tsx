@@ -1,5 +1,12 @@
+import Image from "next/image";
+import Link from "next/link";
+
 const Logo = () => {
-  return <div className="font-bold">LOGO</div>;
+  return (
+    <Link href="/">
+      <Image src={"/logo.png"} width={50} height={50} alt={"Logo"} />
+    </Link>
+  );
 };
 
 export default Logo;
