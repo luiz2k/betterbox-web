@@ -5,6 +5,7 @@ import { getAllMoviesListedByUser } from "@/services/Batterbox/Batterbox";
 import { useEffect } from "react";
 
 const useProfileMovieList = ({
+  authorization,
   userId,
   accessToken,
   queryKey,
@@ -17,7 +18,13 @@ const useProfileMovieList = ({
     queryKey: [queryKey],
     initialPageParam: 1,
     queryFn: ({ pageParam = 2 }) =>
-      getAllMoviesListedByUser(userId, accessToken, searchType, pageParam),
+      getAllMoviesListedByUser(
+        authorization,
+        userId,
+        accessToken,
+        searchType,
+        pageParam,
+      ),
     initialData: { pages: [initialData], pageParams: [1] },
     getNextPageParam: (_, allPages) => allPages.length + 1,
   });

@@ -7,7 +7,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: "betterbox - TOP Filmes" };
 
 export default async function TopFilmes() {
-  const movies: Movies = await movieList("top_rated", 1, "pt-BR");
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
+
+  const movies: Movies = await movieList(
+    TMDB_AUTHORIZATION,
+    "top_rated",
+    1,
+    "pt-BR",
+  );
 
   return (
     <section className="space-y-10">
@@ -17,6 +24,7 @@ export default async function TopFilmes() {
       </header>
 
       <MovieList
+        authorization={TMDB_AUTHORIZATION}
         queryKey={"top_rated"}
         searchType={"top_rated"}
         initialData={movies}

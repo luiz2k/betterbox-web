@@ -11,7 +11,7 @@ import type {
   Status,
 } from "./types.d";
 
-const useChangePassword = ({ accessToken }: ChangePasswordProps) => {
+const useChangePassword = ({ apiURL, accessToken }: ChangePasswordProps) => {
   const [status, setStatus] = useState<Status>({
     status: "initial",
     message: "Preencha o formulário para alterar a sua senha.",
@@ -33,7 +33,7 @@ const useChangePassword = ({ accessToken }: ChangePasswordProps) => {
 
   const handleFormSubmit = async (data: ChangePasswordSchema) => {
     try {
-      const result = await changePassword({ ...data, accessToken });
+      const result = await changePassword({ apiURL, ...data, accessToken });
 
       if (result.status === "success")
         setStatus({

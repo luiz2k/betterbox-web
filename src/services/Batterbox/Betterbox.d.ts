@@ -22,17 +22,20 @@ export type MoviesPromise = {
 };
 
 export type ChangeUsername = {
+  apiURL: string;
   newUsername: string;
   accessToken?: string;
 };
 
 export type ChangeEmail = {
+  apiURL: string;
   email: string;
   password: string;
   newEmail: string;
   accessToken?: string;
 };
 export type ChangePassword = {
+  apiURL: string;
   email: string;
   password: string;
   newPassword: string;

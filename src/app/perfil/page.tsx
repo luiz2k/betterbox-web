@@ -9,9 +9,11 @@ import Carousel from "@/components/Carousel/Carousel";
 export const metadata: Metadata = { title: "betterbox - Perfil" };
 
 export default async function Profile() {
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
   const session: Session | null = await getServerSession(options);
 
   const watchedMovies: GetAllMovies = await getAllMoviesListedByUser(
+    TMDB_AUTHORIZATION,
     session?.user.id,
     session?.accessToken,
     "watchedMovies",
@@ -19,6 +21,7 @@ export default async function Profile() {
   );
 
   const favoriteMovies: GetAllMovies = await getAllMoviesListedByUser(
+    TMDB_AUTHORIZATION,
     session?.user.id,
     session?.accessToken,
     "favoriteMovies",

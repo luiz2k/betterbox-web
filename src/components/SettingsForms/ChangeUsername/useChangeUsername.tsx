@@ -11,7 +11,7 @@ import type {
   Status,
 } from "./types.d";
 
-const useChangeUsername = ({ accessToken }: ChangeUsernameProps) => {
+const useChangeUsername = ({ apiURL, accessToken }: ChangeUsernameProps) => {
   const [status, setStatus] = useState<Status>({
     status: "initial",
     message: "Preencha o formulário para alterar o seu nome de usuário.",
@@ -33,7 +33,7 @@ const useChangeUsername = ({ accessToken }: ChangeUsernameProps) => {
 
   const handleFormSubmit = async (data: ChangeUsernameSchema) => {
     try {
-      const result = await changeUsername({ ...data, accessToken });
+      const result = await changeUsername({ apiURL, ...data, accessToken });
 
       if (result.status === "success")
         setStatus({

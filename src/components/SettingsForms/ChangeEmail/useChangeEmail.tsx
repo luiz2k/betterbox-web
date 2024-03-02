@@ -7,7 +7,7 @@ import { changeEmailSchema } from "@/validations/configurationValidation";
 
 import { ChangeEmailProps, ChangeEmailSchema, Status } from "./types.d";
 
-const useChangeEmail = ({ accessToken }: ChangeEmailProps) => {
+const useChangeEmail = ({ apiURL, accessToken }: ChangeEmailProps) => {
   const [status, setStatus] = useState<Status>({
     status: "initial",
     message: "Preencha o formulário para alterar o seu e-mail.",
@@ -31,7 +31,7 @@ const useChangeEmail = ({ accessToken }: ChangeEmailProps) => {
     try {
       console.log(data.email);
 
-      const result = await changeEmail({ ...data, accessToken });
+      const result = await changeEmail({ apiURL, ...data, accessToken });
 
       if (result.status === "success")
         setStatus({

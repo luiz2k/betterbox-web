@@ -7,21 +7,23 @@ import type {
   FormattedMovies,
   Options,
   Movies,
-} from "./TMDS.d";
+} from "./TMDS";
 
 const apiBaseURL: string = "https://api.themoviedb.org/3";
 const imgBaseURL: string = "https://image.tmdb.org/t/p";
 
-const TMDB_AUTHORIZATION: string = process.env.NEXT_PUBLIC_TMDB_AUTHORIZATION;
+// const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
 const REVALIDATE_IN_ONE_HOUR: number = 3600;
 
-const options: Options = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${TMDB_AUTHORIZATION}`,
-  },
-  next: { revalidate: REVALIDATE_IN_ONE_HOUR },
+const getOptions = (authorization: string): Options => {
+  return {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${authorization}`,
+    },
+    next: { revalidate: REVALIDATE_IN_ONE_HOUR },
+  };
 };
 
 export const movieImage = (
@@ -42,6 +44,7 @@ export const movieImage = (
 };
 
 export const movieList = async (
+  authorization: string,
   searchType: "popular" | "top_rated" = "popular",
   page: number = 1,
   language: "pt-BR" | "en-US" = "pt-BR",
@@ -49,6 +52,8 @@ export const movieList = async (
   try {
     if (searchType !== "popular" && searchType !== "top_rated")
       throw new Error("Tipo de busca inválido.");
+
+    const options: Options = getOptions(authorization);
 
     const response: Response = await fetch(
       `${apiBaseURL}/movie/${searchType}?language=${language}&page=${page}`,
@@ -83,11 +88,14 @@ export const movieList = async (
 };
 
 export const searchMovie = async (
+  authorization: string,
   query: string,
   page: number = 1,
   language: "pt-BR" | "en-US" = "pt-BR",
 ): Promise<Movies> => {
   if (!query) throw new Error("Nenhuma busca informada.");
+
+  const options: Options = getOptions(authorization);
 
   const response: Response = await fetch(
     `${apiBaseURL}/search/movie?query=${query}&include_adult=false&language=${language}&page=${page}`,
@@ -118,11 +126,14 @@ export const searchMovie = async (
 };
 
 export const getMovieById = async (
+  authorization: string,
   movieId: number,
   language: "pt-BR" | "en-US" = "pt-BR",
 ): Promise<FormattedMovie> => {
   try {
     if (!movieId) throw new Error("Nenhum id foi informado.");
+
+    const options: Options = getOptions(authorization);
 
     const response: Response = await fetch(
       `${apiBaseURL}/movie/${movieId}?language=${language}`,

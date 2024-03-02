@@ -6,9 +6,9 @@ import useChangePassword from "./useChangePassword";
 
 import type { ChangePasswordProps } from "./types.d";
 
-const ChangePassword = ({ accessToken }: ChangePasswordProps) => {
+const ChangePassword = ({ apiURL, accessToken }: ChangePasswordProps) => {
   const { errors, handleFormSubmit, handleSubmit, register, values, status } =
-    useChangePassword({ accessToken });
+    useChangePassword({ apiURL, accessToken });
 
   return (
     <article className="m-auto max-w-xl space-y-5">

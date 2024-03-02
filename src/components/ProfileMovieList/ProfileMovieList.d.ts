@@ -1,4 +1,5 @@
 export type ProfileMovieListProps = {
+  authorization: string;
   userId: number | undefined;
   accessToken: string | undefined;
   queryKey: string;

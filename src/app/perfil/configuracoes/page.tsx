@@ -8,6 +8,7 @@ import { Session, getServerSession } from "next-auth";
 export const metadata: Metadata = { title: "betterbox - Configurações" };
 
 export default async function Settings() {
+  const apiBaseURL: string = process.env.API_BASE_URL as string;
   const session: Session | null = await getServerSession(options);
 
   return (
@@ -22,15 +23,15 @@ export default async function Settings() {
         )}
       </header>
 
-      <ChangeUsername accessToken={session?.accessToken} />
+      <ChangeUsername apiURL={apiBaseURL} accessToken={session?.accessToken} />
 
       <hr className="m-auto max-w-xl" />
 
-      <ChangeEmail accessToken={session?.accessToken} />
+      <ChangeEmail apiURL={apiBaseURL} accessToken={session?.accessToken} />
 
       <hr className="m-auto max-w-xl" />
 
-      <ChangePassword accessToken={session?.accessToken} />
+      <ChangePassword apiURL={apiBaseURL} accessToken={session?.accessToken} />
     </section>
   );
 }

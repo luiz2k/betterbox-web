@@ -14,7 +14,7 @@ import {
 
 import { getMovieById } from "../TMDB/TMDB";
 
-const apiBaseURL: string = process.env.NEXT_PUBLIC_API_BASE_URL as string;
+const apiBaseURL: string = process.env.API_BASE_URL as string;
 
 export const signIn = async (data: SignIn) => {
   const options = {
@@ -113,9 +113,11 @@ export const changeUsername = async (data: ChangeUsername) => {
     body: JSON.stringify({ newUsername: data.newUsername }),
   };
 
+  const apiURL: string = data.apiURL;
+
   try {
     const response: Response = await fetch(
-      `${apiBaseURL}/user/changeUsername`,
+      `${apiURL}/user/changeUsername`,
       options,
     );
 
@@ -145,9 +147,11 @@ export const changeEmail = async (data: ChangeEmail) => {
     }),
   };
 
+  const apiURL: string = data.apiURL;
+
   try {
     const response: Response = await fetch(
-      `${apiBaseURL}/user/changeEmail`,
+      `${apiURL}/user/changeEmail`,
       options,
     );
 
@@ -177,9 +181,11 @@ export const changePassword = async (data: ChangePassword) => {
     }),
   };
 
+  const apiURL: string = data.apiURL;
+
   try {
     const response: Response = await fetch(
-      `${apiBaseURL}/user/changePassword`,
+      `${apiURL}/user/changePassword`,
       options,
     );
 
@@ -374,6 +380,7 @@ export const getFavoriteMovie = async (data: MovieId) => {
 };
 
 export const getAllMoviesListedByUser = async (
+  authorization: string,
   userId: number | undefined,
   accessToken: string | undefined,
   searchType: "watchedMovies" | "favoriteMovies" = "watchedMovies",
@@ -399,7 +406,11 @@ export const getAllMoviesListedByUser = async (
     if (data.data) {
       const moviesPromise: Promise<MoviesPromise>[] = data.data.map(
         async (movie) => {
-          const getMovie = await getMovieById(movie.movieId, "pt-BR");
+          const getMovie = await getMovieById(
+            authorization,
+            movie.movieId,
+            "pt-BR",
+          );
 
           return {
             id: movie.movieId,

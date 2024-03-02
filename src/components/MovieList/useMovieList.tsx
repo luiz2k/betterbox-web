@@ -8,6 +8,7 @@ import { useInView } from "react-intersection-observer";
 import { MovieListProps, Movies } from "./MovieList.d";
 
 const useMovieList = ({
+  authorization,
   queryKey,
   searchType,
   initialData,
@@ -17,7 +18,8 @@ const useMovieList = ({
   const { data, fetchNextPage } = useInfiniteQuery({
     queryKey: [queryKey],
     initialPageParam: 1,
-    queryFn: ({ pageParam }) => movieList(searchType, pageParam, "pt-BR"),
+    queryFn: ({ pageParam }) =>
+      movieList(authorization, searchType, pageParam, "pt-BR"),
     initialData: { pages: [initialData], pageParams: [1] },
     getNextPageParam: (_, allPages) => allPages.length + 1,
     refetchOnWindowFocus: false,

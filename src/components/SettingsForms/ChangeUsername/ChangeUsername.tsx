@@ -6,9 +6,10 @@ import useChangeUsername from "./useChangeUsername";
 
 import type { ChangeUsernameProps } from "./types.d";
 
-const ChangeUsername = ({ accessToken }: ChangeUsernameProps) => {
+const ChangeUsername = ({ apiURL, accessToken }: ChangeUsernameProps) => {
   const { status, handleSubmit, handleFormSubmit, values, errors, register } =
     useChangeUsername({
+      apiURL,
       accessToken,
     });
 

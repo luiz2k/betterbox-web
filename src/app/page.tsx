@@ -9,13 +9,25 @@ export const metadata: Metadata = { title: "betterbox - Início" };
 import { GetMovie, PopularMovies, TopRatedMovies } from "./page.d";
 
 export default async function Home() {
-  const popularMovies: PopularMovies = await movieList("popular", 1, "pt-BR");
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
+
+  const popularMovies: PopularMovies = await movieList(
+    TMDB_AUTHORIZATION,
+    "popular",
+    1,
+    "pt-BR",
+  );
   const topRatedMovies: TopRatedMovies = await movieList(
+    TMDB_AUTHORIZATION,
     "top_rated",
     1,
     "pt-BR",
   );
-  const getMovie: GetMovie = await getMovieById(13, "pt-BR");
+  const getMovie: GetMovie = await getMovieById(
+    TMDB_AUTHORIZATION,
+    13,
+    "pt-BR",
+  );
 
   const session: Session | null = await getServerSession(options);
 

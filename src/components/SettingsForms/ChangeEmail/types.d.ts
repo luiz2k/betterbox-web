@@ -3,7 +3,10 @@ import { z } from "zod";
 
 export type ChangeEmailSchema = z.infer<typeof changeEmailSchema>;
 
-export type ChangeEmailProps = { accessToken: string | undefined };
+export type ChangeEmailProps = {
+  apiURL: string;
+  accessToken: string | undefined;
+};
 
 export type Status = {
   status: "initial" | "success" | "error";

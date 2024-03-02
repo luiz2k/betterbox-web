@@ -6,9 +6,9 @@ import useChangeEmail from "./useChangeEmail";
 
 import type { ChangeEmailProps } from "./types.d";
 
-const ChangeEmail = ({ accessToken }: ChangeEmailProps) => {
+const ChangeEmail = ({ apiURL, accessToken }: ChangeEmailProps) => {
   const { register, handleSubmit, errors, handleFormSubmit, values, status } =
-    useChangeEmail({ accessToken });
+    useChangeEmail({ apiURL, accessToken });
   return (
     <article className="m-auto max-w-xl space-y-5">
       <header>

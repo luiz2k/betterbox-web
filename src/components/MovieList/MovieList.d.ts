@@ -11,6 +11,7 @@ export type Movies = {
 };
 
 export type MovieListProps = {
+  authorization: string;
   queryKey: string;
   searchType: "popular" | "top_rated";
   initialData: Movies;

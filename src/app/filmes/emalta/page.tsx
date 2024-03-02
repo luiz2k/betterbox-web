@@ -7,7 +7,14 @@ import type { Metadata } from "next";
 export const metadata: Metadata = { title: "betterbox - Em Alta" };
 
 export default async function EmAlta() {
-  const movies: Movies = await movieList("popular", 1, "pt-BR");
+  const TMBD_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
+
+  const movies: Movies = await movieList(
+    TMBD_AUTHORIZATION,
+    "popular",
+    1,
+    "pt-BR",
+  );
 
   return (
     <section className="space-y-10">
@@ -17,6 +24,7 @@ export default async function EmAlta() {
       </header>
 
       <MovieList
+        authorization={TMBD_AUTHORIZATION}
         queryKey={"popular"}
         searchType={"popular"}
         initialData={movies}
