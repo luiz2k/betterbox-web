@@ -4,7 +4,7 @@ import { Home, Flame, Popcorn } from "lucide-react";
 const NavBar = () => {
   return (
     <nav>
-      <ul className=" flex flex-col gap-5 uppercase md:flex-row">
+      <ul className=" flex flex-col gap-5 uppercase lg:flex-row">
         <li>
           <NavLink href="/" leftIcon={<Home />}>
             Início

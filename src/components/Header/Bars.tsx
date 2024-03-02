@@ -13,14 +13,14 @@ const Bars = () => {
     <div className="flex gap-5">
       <div
         data-sidebar={sideBar}
-        className="absolute -left-60 top-0 z-10 flex h-svh w-60 flex-col justify-between border-r bg-color-2 p-5 duration-200 data-[sidebar=true]:left-0 dark:bg-color-4 md:static md:h-auto md:w-fit md:border-none md:bg-transparent md:p-0 dark:md:bg-transparent"
+        className="absolute -left-60 top-0 z-10 flex h-svh w-60 flex-col justify-between border-r bg-color-2 p-5 duration-200 data-[sidebar=true]:left-0 dark:bg-color-4 lg:static lg:h-auto lg:w-fit lg:border-none lg:bg-transparent lg:p-0 dark:lg:bg-transparent"
       >
         <NavBar />
 
         <ThemeMenu />
 
         <span
-          className="absolute right-1 top-1 cursor-pointer rounded-full md:hidden"
+          className="absolute right-1 top-1 cursor-pointer rounded-full lg:hidden"
           onClick={handleSideBar}
         >
           <X />

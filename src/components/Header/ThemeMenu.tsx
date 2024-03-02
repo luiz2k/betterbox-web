@@ -10,7 +10,7 @@ const ThemeMenu = () => {
   const { setTheme } = useTheme();
 
   return (
-    <menu className="space-y-2 md:hidden">
+    <menu className="space-y-2 lg:hidden">
       <li className="rounded-md bg-color-2 dark:bg-color-4">
         <Button
           leftIcon={<Sun />}

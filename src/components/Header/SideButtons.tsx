@@ -33,15 +33,15 @@ const SideButtons = ({ session }: { session: boolean }) => {
 
   return (
     <div className="flex gap-2">
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <Button leftIcon={<Search />} onClick={handleSearchBar} />
       </div>
 
-      <div className="md:hidden">
+      <div className="lg:hidden">
         <Button leftIcon={<Menu />} onClick={handleSideBar} />
       </div>
 
-      <DropDown.Root leftIcon={<SunMoon />} className="hidden md:block">
+      <DropDown.Root leftIcon={<SunMoon />} className="hidden lg:block">
         <DropDown.Option
           leftIcon={<Sun />}
           cursor="default"
