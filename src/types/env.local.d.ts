@@ -1,5 +1,8 @@
 declare namespace NodeJS {
   interface ProcessEnv {
-    NEXT_PUBLIC_TMDB_AUTHORIZATION: string;
+    TMDB_AUTHORIZATION: string;
+    API_BASE_URL: string;
+    NEXTAUTH_URL: string;
+    NEXTAUTH_SECRET: string;
   }
 }
