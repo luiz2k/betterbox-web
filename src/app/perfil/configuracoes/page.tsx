@@ -2,8 +2,10 @@ import options from "@/app/api/auth/[...nextauth]/options";
 import ChangeEmail from "@/components/SettingsForms/ChangeEmail/ChangeEmail";
 import ChangePassword from "@/components/SettingsForms/ChangePassword/ChangePassword";
 import ChangeUsername from "@/components/SettingsForms/ChangeUsername/ChangeUsername";
+import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
-import { z } from "zod";
+
+export const metadata: Metadata = { title: "betterbox - Configurações" };
 
 export default async function Settings() {
   const session: Session | null = await getServerSession(options);
