@@ -16,7 +16,7 @@ const SearchBar = () => {
         <input
           type="text"
           name="search"
-          className="w-full rounded-full border bg-color-2 py-1 pl-2 pr-8 text-color-4 shadow-inner md:p-0 md:pl-2 md:pr-7"
+          className="w-full rounded-full border border-color-3 bg-color-2 py-1 pl-2 pr-8 text-color-4 shadow-inner dark:focus:bg-white/80 md:p-0 md:pl-2 md:pr-7"
         />
 
         <button
