@@ -13,6 +13,8 @@ import {
   removeFromWatched,
 } from "@/services/Batterbox/Batterbox";
 import type { Watched, Favorite } from "./page.d";
+import options from "@/app/api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
 export async function generateMetadata({
   params,
 }: {
@@ -30,15 +32,19 @@ export default async function Movie({ params }: { params: { id: string } }) {
   const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
   const id: number = Number(params.id);
 
+  const session = await getServerSession(options);
+
   const movie = await getMovieById(TMDB_AUTHORIZATION, id, "pt-BR");
 
-  const watched: Watched = await getMovieWatched({ movieId: id });
-  const favorite: Favorite = await getFavoriteMovie({ movieId: id });
+  const watched: Watched | null =
+    session && (await getMovieWatched({ movieId: id }));
+  const favorite: Favorite | null =
+    session && (await getFavoriteMovie({ movieId: id }));
 
   const handleWatched = async (): Promise<void> => {
     "use server";
 
-    if (watched.status === "success") {
+    if (watched?.status === "success") {
       await removeFromWatched({ movieId: id });
       return revalidateTag("getMovieWatched");
     }
@@ -50,7 +56,7 @@ export default async function Movie({ params }: { params: { id: string } }) {
   const handleFavorite = async (): Promise<void> => {
     "use server";
 
-    if (favorite.status === "success") {
+    if (favorite?.status === "success") {
       await removeFromFavorite({ movieId: id });
       return revalidateTag("getFavoriteMovie");
     }
@@ -62,27 +68,16 @@ export default async function Movie({ params }: { params: { id: string } }) {
   return (
     <section className="m-auto max-w-3xl space-y-2">
       <article className="flex flex-wrap items-end justify-between gap-2">
-        {watched.data && (
+        {watched?.data && (
           <div>
             <h2 className="text-lg font-bold">Assistido</h2>
-            <p className="text-color-3">{watched.data.watchedDate}</p>
+            <p className="text-color-3">{watched?.data.watchedDate}</p>
           </div>
         )}
 
-        <div className="flex gap-2">
-          {watched.status === "error" ? (
-            <form action={handleWatched}>
-              <Button
-                leftIcon={<EyeIcon />}
-                theme="grayFill"
-                textColor="white"
-                type="submit"
-              >
-                Assistido
-              </Button>
-            </form>
-          ) : (
-            <>
+        {watched && (
+          <div className="flex gap-2">
+            {watched?.status === "error" ? (
               <form action={handleWatched}>
                 <Button
                   leftIcon={<EyeIcon />}
@@ -90,36 +85,49 @@ export default async function Movie({ params }: { params: { id: string } }) {
                   textColor="white"
                   type="submit"
                 >
+                  Assistido
+                </Button>
+              </form>
+            ) : (
+              <>
+                <form action={handleWatched}>
+                  <Button
+                    leftIcon={<EyeIcon />}
+                    theme="grayFill"
+                    textColor="white"
+                    type="submit"
+                  >
+                    Remover
+                  </Button>
+                </form>
+              </>
+            )}
+
+            {favorite?.status === "error" ? (
+              <form action={handleFavorite}>
+                <Button
+                  leftIcon={<Heart />}
+                  theme="grayFill"
+                  textColor="white"
+                  type="submit"
+                >
+                  Favoritar
+                </Button>
+              </form>
+            ) : (
+              <form action={handleFavorite}>
+                <Button
+                  leftIcon={<Heart />}
+                  theme="grayFill"
+                  textColor="white"
+                  type="submit"
+                >
                   Remover
                 </Button>
               </form>
-            </>
-          )}
-
-          {favorite.status === "error" ? (
-            <form action={handleFavorite}>
-              <Button
-                leftIcon={<Heart />}
-                theme="grayFill"
-                textColor="white"
-                type="submit"
-              >
-                Favoritar
-              </Button>
-            </form>
-          ) : (
-            <form action={handleFavorite}>
-              <Button
-                leftIcon={<Heart />}
-                theme="grayFill"
-                textColor="white"
-                type="submit"
-              >
-                Remover
-              </Button>
-            </form>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </article>
 
       <header className="space-y-2">
