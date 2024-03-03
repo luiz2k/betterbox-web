@@ -55,24 +55,6 @@ const options: AuthOptions = {
       if (user) return { ...user };
 
       return token;
-
-      /* 
-      # Comentádo até encontrar uma solução para a persistência do token.
-
-      const accessTokenIsValid: boolean =
-        Date.now() < Date.parse(token.accessTokenExpiresAt);
-
-      if (accessTokenIsValid) return token;
-
-      const newTokens = await refreshToken(token.refreshToken);
-
-      return {
-        ...token,
-        accessToken: newTokens.accessToken,
-        accessTokenExpiresAt: newTokens.accessTokenExpiresAt,
-        refreshToken: newTokens.refreshToken,
-      };
-      */
     },
     async session({ session, token }) {
       const userData = await getUserByAccessToken(token.accessToken);
