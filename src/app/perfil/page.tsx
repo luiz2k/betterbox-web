@@ -10,9 +10,12 @@ export const metadata: Metadata = { title: "betterbox - Perfil" };
 
 export default async function Profile() {
   const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
+  const apiBaseURL: string = process.env.API_BASE_URL;
+
   const session: Session | null = await getServerSession(options);
 
   const watchedMovies: GetAllMovies = await getAllMoviesListedByUser(
+    apiBaseURL,
     TMDB_AUTHORIZATION,
     session?.user.id,
     session?.accessToken,
@@ -21,6 +24,7 @@ export default async function Profile() {
   );
 
   const favoriteMovies: GetAllMovies = await getAllMoviesListedByUser(
+    apiBaseURL,
     TMDB_AUTHORIZATION,
     session?.user.id,
     session?.accessToken,
