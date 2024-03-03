@@ -18,16 +18,19 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
   const id: number = Number(params.id);
 
-  const movie = await getMovieById(id, "pt-BR");
+  const movie = await getMovieById(TMDB_AUTHORIZATION, id, "pt-BR");
 
   return { title: `betterbox - ${movie.title}` };
 }
 
 export default async function Movie({ params }: { params: { id: string } }) {
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
   const id: number = Number(params.id);
-  const movie = await getMovieById(id, "pt-BR");
+
+  const movie = await getMovieById(TMDB_AUTHORIZATION, id, "pt-BR");
 
   const watched: Watched = await getMovieWatched({ movieId: id });
   const favorite: Favorite = await getFavoriteMovie({ movieId: id });
