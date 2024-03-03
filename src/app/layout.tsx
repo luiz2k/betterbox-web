@@ -6,7 +6,7 @@ import AuthModal from "@/components/AuthModal/AuthModal";
 
 import TanStackQueryProvider from "@/providers/TanStackQueryProvider";
 import ThemeProvider from "@/providers/ThemeProvider";
-import VerifyAutentication from "@/hooks/VerifyAutentication";
+import VerifyAutentication from "@/components/VerifyAutentication/VerifyAutentication";
 
 const roboto = Roboto({ subsets: ["latin"], weight: ["400"] });
 export const metadata = { icons: { icon: "/logo.png" } };
