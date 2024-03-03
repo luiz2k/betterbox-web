@@ -8,6 +8,7 @@ import { Loader } from "lucide-react";
 import useProfileMovieList from "./useProfileMovieList";
 
 const ProfileMovieList = ({
+  apiBaseURL,
   authorization,
   userId,
   accessToken,
@@ -16,6 +17,7 @@ const ProfileMovieList = ({
   initialData,
 }: ProfileMovieListProps) => {
   const { movies, ref, fetchNextPage } = useProfileMovieList({
+    apiBaseURL,
     authorization,
     userId,
     accessToken,

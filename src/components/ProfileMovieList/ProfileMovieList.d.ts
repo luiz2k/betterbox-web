@@ -1,4 +1,5 @@
 export type ProfileMovieListProps = {
+  apiBaseURL: string;
   authorization: string;
   userId: number | undefined;
   accessToken: string | undefined;

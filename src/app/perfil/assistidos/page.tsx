@@ -6,8 +6,10 @@ import options from "@/app/api/auth/[...nextauth]/options";
 export default async function Watched() {
   const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
   const session: Session | null = await getServerSession(options);
+  const apiBaseURL: string = process.env.API_BASE_URL;
 
   const watchedMovies = await getAllMoviesListedByUser(
+    apiBaseURL,
     TMDB_AUTHORIZATION,
     session?.user.id,
     session?.accessToken,
@@ -25,6 +27,7 @@ export default async function Watched() {
       </header>
 
       <ProfileMovieList
+        apiBaseURL={apiBaseURL}
         authorization={TMDB_AUTHORIZATION}
         userId={session?.user.id}
         accessToken={session?.accessToken}
