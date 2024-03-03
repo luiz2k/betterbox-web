@@ -14,7 +14,7 @@ import {
 
 import { getMovieById } from "../TMDB/TMDB";
 
-const apiBaseURL: string = process.env.API_BASE_URL as string;
+const apiBaseURL: string = process.env.API_BASE_URL;
 
 export const signIn = async (data: SignIn) => {
   const options = {
@@ -380,6 +380,7 @@ export const getFavoriteMovie = async (data: MovieId) => {
 };
 
 export const getAllMoviesListedByUser = async (
+  baseURL: string,
   authorization: string,
   userId: number | undefined,
   accessToken: string | undefined,
@@ -397,7 +398,7 @@ export const getAllMoviesListedByUser = async (
 
   try {
     const response = await fetch(
-      `${apiBaseURL}/user/getAll${searchType}?page=${page}`,
+      `${baseURL}/user/getAll${searchType}?page=${page}`,
       options,
     );
 
