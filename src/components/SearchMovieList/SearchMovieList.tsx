@@ -9,8 +9,14 @@ import { Loader } from "lucide-react";
 
 import type { MovieListProps } from "./SearchMovieList.d";
 
-const SearchMovieList = ({ queryKey, query, initialData }: MovieListProps) => {
+const SearchMovieList = ({
+  authorization,
+  queryKey,
+  query,
+  initialData,
+}: MovieListProps) => {
   const { ref, fetchNextPage, movies, currentPage, totalPages } = useMovieList({
+    authorization,
     queryKey,
     query,
     initialData,

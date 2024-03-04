@@ -18,8 +18,14 @@ export async function generateMetadata({
 export default async function Busca({ params }: { params: { query: string } }) {
   const query: string = params.query;
   const decodedURI: string = decodeURIComponent(query);
+  const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
 
-  const movies: Movies = await searchMovie(query, 1, "pt-BR");
+  const movies: Movies = await searchMovie(
+    TMDB_AUTHORIZATION,
+    query,
+    1,
+    "pt-BR",
+  );
 
   return (
     <section className="space-y-10">
@@ -30,7 +36,12 @@ export default async function Busca({ params }: { params: { query: string } }) {
         </p>
       </header>
 
-      <SearchMovieList queryKey={"search"} query={query} initialData={movies} />
+      <SearchMovieList
+        authorization={TMDB_AUTHORIZATION}
+        queryKey={"search"}
+        query={query}
+        initialData={movies}
+      />
     </section>
   );
 }
