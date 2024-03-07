@@ -51,8 +51,10 @@ const options: AuthOptions = {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
       if (user) return { ...user };
+
+      if (trigger === "update") return { ...token, user: { ...session.user } };
 
       return token;
     },

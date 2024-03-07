@@ -10,12 +10,15 @@ import type {
   ChangeUsernameSchema,
   Status,
 } from "./types.d";
+import { useSession } from "next-auth/react";
 
 const useChangeUsername = ({ apiURL, accessToken }: ChangeUsernameProps) => {
   const [status, setStatus] = useState<Status>({
     status: "initial",
     message: "Preencha o formulário para alterar o seu nome de usuário.",
   });
+
+  const { data: session, update } = useSession();
 
   const router = useRouter();
 
@@ -40,6 +43,14 @@ const useChangeUsername = ({ apiURL, accessToken }: ChangeUsernameProps) => {
           status: "success",
           message: "Nome de usuário alterado com sucesso.",
         });
+
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          username: data.newUsername,
+        },
+      });
 
       router.refresh();
     } catch (error) {
