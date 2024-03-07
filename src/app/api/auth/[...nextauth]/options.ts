@@ -57,11 +57,9 @@ const options: AuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      const userData = await getUserByAccessToken(token.accessToken);
-
       return {
         ...session,
-        user: { ...userData },
+        user: { ...token.user },
         accessToken: token.accessToken,
       };
     },
