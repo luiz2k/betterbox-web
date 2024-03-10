@@ -9,7 +9,7 @@ type DropDownOptionProps = {
 const DropDownOption = ({ children, ...props }: DropDownOptionProps) => {
   return (
     <li className="rounded-md bg-color-2 dark:bg-color-4">
-      <Button width="full" {...props}>
+      <Button theme="grayFill" textColor="white" width="full" {...props}>
         {children}
       </Button>
     </li>
