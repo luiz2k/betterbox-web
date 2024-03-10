@@ -41,3 +41,33 @@ export type ChangePassword = {
   newPassword: string;
   accessToken?: string;
 };
+
+export type CreateComment = {
+  movieId: number;
+  comment: string;
+  apiBaseURL: string;
+};
+
+export type GetAllComments = {
+  movieId: number;
+};
+
+export type GetAllCommentsData = {
+  status: "success" | "error";
+  message: string;
+  data: {
+    comment: string;
+    commentedAt: string;
+    editedAt: string | null;
+    user: {
+      id: number;
+      username: string;
+      picture: string | null;
+    };
+  }[];
+};
+
+export type DeleteComment = {
+  movieId: number;
+  apiBaseURL: string;
+};

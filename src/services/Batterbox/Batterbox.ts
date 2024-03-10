@@ -10,9 +10,14 @@ import {
   ChangeUsername,
   ChangeEmail,
   ChangePassword,
+  CreateComment,
+  GetAllComments,
+  GetAllCommentsData,
+  DeleteComment,
 } from "./Betterbox";
 
 import { getMovieById } from "../TMDB/TMDB";
+import { getSession } from "next-auth/react";
 
 const apiBaseURL: string = process.env.API_BASE_URL;
 
@@ -433,6 +438,104 @@ export const getAllMoviesListedByUser = async (
       ...data,
       data: undefined,
     };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getAllComments = async (
+  data: GetAllComments,
+): Promise<GetAllCommentsData> => {
+  const session = await getServerSession(optionsAuth);
+
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    next: { tags: ["getAllComments"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiBaseURL}/movie/getAllComments`,
+      options,
+    );
+
+    const data: GetAllCommentsData = await response.json();
+
+    const formattedComments = data.data.map((item) => {
+      return {
+        ...item,
+        commentedAt: new Date(item.commentedAt).toLocaleDateString("pt-BR"),
+        editedAt:
+          item.editedAt && new Date(item.editedAt).toLocaleDateString("pt-BR"),
+      };
+    });
+
+    return {
+      status: data.status,
+      message: data.message,
+      data: formattedComments,
+    };
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const createComment = async (data: CreateComment) => {
+  const session = await getSession();
+  const apiURL = data.apiBaseURL;
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify({ movieId: data.movieId, comment: data.comment }),
+    next: { tags: ["getAllComments"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/movie/createComment`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deleteComment = async (data: DeleteComment) => {
+  const session = await getSession();
+  const apiURL = data.apiBaseURL;
+
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${session?.accessToken}`,
+    },
+    body: JSON.stringify({ movieId: data.movieId }),
+    next: { tags: ["deleteComment"] },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/movie/deleteComment`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
