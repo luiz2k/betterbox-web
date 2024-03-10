@@ -9,7 +9,7 @@ type Button = ComponentProps<"button"> &
   };
 
 const button = tv({
-  base: "flex gap-2 rounded duration-200",
+  base: "flex items-center gap-2 rounded duration-200",
   variants: {
     theme: {
       adaptable:
@@ -35,6 +35,12 @@ const button = tv({
     textColor: {
       black: "text-slate-900",
       white: "text-slate-200",
+    },
+    fontSize: {
+      small: "text-xs",
+      normal: "text-sm",
+      medium: "text-base",
+      large: "text-lg",
     },
     paddingX: {
       small: "px-0.5",
@@ -73,6 +79,7 @@ const Button = ({
   theme,
   cursor,
   textColor,
+  fontSize,
   paddingX,
   paddingY,
   Weight,
@@ -88,6 +95,7 @@ const Button = ({
         theme,
         cursor,
         textColor,
+        fontSize,
         paddingX,
         paddingY,
         Weight,
