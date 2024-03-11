@@ -34,11 +34,21 @@ const SideButtons = ({ session }: { session: boolean }) => {
   return (
     <div className="flex gap-2">
       <div className="lg:hidden">
-        <Button leftIcon={<Search />} onClick={handleSearchBar} />
+        <Button
+          leftIcon={<Search />}
+          theme="grayFill"
+          textColor="white"
+          onClick={handleSearchBar}
+        />
       </div>
 
       <div className="lg:hidden">
-        <Button leftIcon={<Menu />} onClick={handleSideBar} />
+        <Button
+          leftIcon={<Menu />}
+          theme="grayFill"
+          textColor="white"
+          onClick={handleSideBar}
+        />
       </div>
 
       <DropDown.Root leftIcon={<SunMoon />} className="hidden lg:block">

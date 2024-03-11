@@ -15,6 +15,8 @@ const ThemeMenu = () => {
         <Button
           leftIcon={<Sun />}
           width="full"
+          theme="grayFill"
+          textColor="white"
           onClick={() => setTheme("light")}
         >
           Claro
@@ -24,6 +26,8 @@ const ThemeMenu = () => {
         <Button
           leftIcon={<MoonStar />}
           width="full"
+          theme="grayFill"
+          textColor="white"
           onClick={() => setTheme("dark")}
         >
           Escuro
@@ -33,6 +37,8 @@ const ThemeMenu = () => {
         <Button
           leftIcon={<Computer />}
           width="full"
+          theme="grayFill"
+          textColor="white"
           onClick={() => setTheme("system")}
         >
           Sistema
