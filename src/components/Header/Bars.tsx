@@ -9,6 +9,9 @@ import { X } from "lucide-react";
 const Bars = () => {
   const { sideBar, handleSideBar } = useHeader();
 
+  if (sideBar) document.documentElement.style.overflow = "hidden";
+  else document.documentElement.style.overflow = "auto";
+
   return (
     <div className="flex gap-5">
       <div
