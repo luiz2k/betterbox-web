@@ -1,114 +1,16 @@
-import options from "@/app/api/auth/[...nextauth]/options";
-import Button from "@/components/Button/Button";
-import {
-  getFavoriteMovie,
-  getMovieWatched,
-} from "@/services/Batterbox/Batterbox";
 import { getMovieById } from "@/services/TMDB/TMDB";
-import { EyeIcon, Heart, Star } from "lucide-react";
-import { getServerSession } from "next-auth";
+import { Star } from "lucide-react";
 
 import Image from "next/image";
-import { handleFavorite, handleWatched } from "./actions";
+import AddToWatchedAndFavorite from "./AddToWatchedAndFavorite";
 
-type MovieInfosProps = {
-  movieId: number;
-};
-
-export default async function MovieInfos({ movieId }: MovieInfosProps) {
+export default async function MovieInfos({ movieId }: { movieId: number }) {
   const TMDB_AUTHORIZATION: string = process.env.TMDB_AUTHORIZATION;
-
-  const session = await getServerSession(options);
-
-  const movie = await getMovieById(TMDB_AUTHORIZATION, movieId, "pt-BR");
-
-  const watched = session && (await getMovieWatched({ movieId }));
-  const favorite = session && (await getFavoriteMovie({ movieId }));
+  const movie = await getMovieById(TMDB_AUTHORIZATION, movieId);
 
   return (
     <section className="m-auto max-w-3xl space-y-2">
-      <article className="flex flex-wrap items-end justify-between gap-2">
-        {watched?.data && (
-          <div>
-            <h2 className="text-lg font-bold">Assistido</h2>
-            <p className="text-color-3">{watched?.data.watchedDate}</p>
-          </div>
-        )}
-
-        {watched && (
-          <div className="flex gap-2">
-            {watched?.status === "error" ? (
-              <form
-                action={async () => {
-                  "use server";
-                  await handleWatched(watched?.status, movieId);
-                }}
-              >
-                <Button
-                  leftIcon={<EyeIcon />}
-                  theme="grayFill"
-                  textColor="white"
-                  type="submit"
-                >
-                  Assistido
-                </Button>
-              </form>
-            ) : (
-              <>
-                <form
-                  action={async () => {
-                    "use server";
-                    await handleWatched(watched?.status, movieId);
-                  }}
-                >
-                  <Button
-                    leftIcon={<EyeIcon />}
-                    theme="grayFill"
-                    textColor="white"
-                    type="submit"
-                  >
-                    Remover
-                  </Button>
-                </form>
-              </>
-            )}
-
-            {favorite?.status === "error" ? (
-              <form
-                action={async () => {
-                  "use server";
-                  await handleFavorite(favorite?.status, movieId);
-                }}
-              >
-                <Button
-                  leftIcon={<Heart />}
-                  theme="grayFill"
-                  textColor="white"
-                  type="submit"
-                >
-                  Favoritar
-                </Button>
-              </form>
-            ) : (
-              <form
-                action={async () => {
-                  "use server";
-                  await handleFavorite(favorite?.status, movieId);
-                }}
-              >
-                <Button
-                  leftIcon={<Heart />}
-                  theme="grayFill"
-                  textColor="white"
-                  type="submit"
-                >
-                  Remover
-                </Button>
-              </form>
-            )}
-          </div>
-        )}
-      </article>
+      <AddToWatchedAndFavorite movieId={movieId} />
 
       <header className="space-y-2">
         <Image
