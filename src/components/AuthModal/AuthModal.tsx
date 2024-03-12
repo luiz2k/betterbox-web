@@ -4,14 +4,21 @@ import { useAuthModalStore } from "@/stores/AuthModalStore";
 
 import SignInModal from "./SignInModal/SignInModal";
 import SignUpModal from "./SignUpModal/SignUpModal";
+import { useEffect } from "react";
 
 const AuthModal = () => {
   const { SignInModal: SignInModalState, SignUpModal: SignUpModalState } =
     useAuthModalStore();
 
-  if (SignInModalState || SignUpModalState)
-    document.documentElement.style.overflow = "hidden";
-  else document.documentElement.style.overflow = "auto";
+  useEffect(() => {
+    if (SignInModalState || SignUpModalState)
+      document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [SignInModalState, SignUpModalState]);
 
   return (
     <>

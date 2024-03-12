@@ -5,12 +5,19 @@ import ThemeMenu from "./ThemeMenu";
 import SearchBar from "./SearchBar";
 import useHeader from "./useHeader";
 import { X } from "lucide-react";
+import { useEffect } from "react";
 
 const Bars = () => {
   const { sideBar, handleSideBar } = useHeader();
 
-  if (sideBar) document.documentElement.style.overflow = "hidden";
-  else document.documentElement.style.overflow = "auto";
+  useEffect(() => {
+    if (sideBar) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [sideBar]);
 
   return (
     <div className="flex gap-5">
