@@ -31,7 +31,7 @@ const ChangeUsername = ({ apiURL, accessToken }: ChangeUsernameProps) => {
       <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-5">
         <div>
           <LabelAndInput
-            label="Novo de usuário"
+            label="Novo nome de usuário"
             value={values.newUsername}
             type="text"
             placeholder="Luiz"
