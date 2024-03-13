@@ -4,7 +4,9 @@ import { Metadata } from "next";
 import { getAllMoviesListedByUser } from "@/services/Batterbox/Batterbox";
 
 import { GetAllMovies } from "./page.d";
-import Carousel from "@/components/Carousel/Carousel";
+import MovieCard from "@/components/MovieCard";
+import Button from "@/components/Button/Button";
+import Link from "next/link";
 
 export const metadata: Metadata = { title: "betterbox - Perfil" };
 
@@ -42,20 +44,39 @@ export default async function Profile() {
       </header>
 
       {watchedMovies.data?.length ? (
-        <Carousel
-          data={watchedMovies.data}
-          title="Filmes assistidos"
-          subtitle="Filmes que você assistiu"
-          href="/perfil/assistidos"
-        />
-      ) : (
-        <section>
+        <section className="space-y-2">
           <header>
-            <h2 className="text-lg font-bold uppercase">Filmes favoritos</h2>
+            <h2 className="text-lg font-bold uppercase">Filmes assistidos</h2>
             <p className="text-color-3">Filmes que você assistiu</p>
           </header>
 
-          <div className="grid justify-center gap-5 overflow-x-auto rounded bg-color-3/5 p-5">
+          <section className="flex gap-5 overflow-hidden rounded bg-color-3/10 p-2">
+            {watchedMovies.data.slice(0, 9).map((movie) => (
+              <MovieCard.Root key={movie.id} id={movie.id} title={movie.title}>
+                <MovieCard.Image
+                  posterPath={movie.posterPath}
+                  alt={movie.title}
+                />
+              </MovieCard.Root>
+            ))}
+          </section>
+
+          <div className="flex justify-end pb-2">
+            <Link href={"/perfil/assistidos"} className="flex justify-center">
+              <Button theme="grayFill" textColor="white" uppercase>
+                Ver mais
+              </Button>
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <section className="space-y-2">
+          <header>
+            <h2 className="text-lg font-bold uppercase">Filmes assistidos</h2>
+            <p className="text-color-3">Filmes que você assistiu</p>
+          </header>
+
+          <div className="grid justify-center gap-5 overflow-x-auto rounded bg-color-3/10 p-5">
             <p className="uppercase text-color-3">
               Você não possui nenhum filme na lista de assistidos.
             </p>
@@ -64,20 +85,39 @@ export default async function Profile() {
       )}
 
       {favoriteMovies.data?.length ? (
-        <Carousel
-          data={favoriteMovies.data}
-          title="Filmes favoritados"
-          subtitle="Filmes que você favoritou"
-          href="/perfil/favoritos"
-        />
-      ) : (
-        <section>
+        <section className="space-y-2">
           <header>
             <h2 className="text-lg font-bold uppercase">Filmes favoritos</h2>
             <p className="text-color-3">Filmes que você favoritou</p>
           </header>
 
-          <div className="grid justify-center gap-5 overflow-x-auto rounded bg-color-3/5 p-5">
+          <section className="flex gap-5 overflow-hidden rounded bg-color-3/10 p-2">
+            {favoriteMovies.data.slice(0, 9).map((movie) => (
+              <MovieCard.Root key={movie.id} id={movie.id} title={movie.title}>
+                <MovieCard.Image
+                  posterPath={movie.posterPath}
+                  alt={movie.title}
+                />
+              </MovieCard.Root>
+            ))}
+          </section>
+
+          <div className="flex justify-end py-2">
+            <Link href={"/perfil/favoritos"} className="flex justify-center">
+              <Button theme="grayFill" textColor="white" uppercase>
+                Ver mais
+              </Button>
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <section className="space-y-2">
+          <header>
+            <h2 className="text-lg font-bold uppercase">Filmes favoritos</h2>
+            <p className="text-color-3">Filmes que você favoritou</p>
+          </header>
+
+          <div className="grid justify-center gap-5 overflow-x-auto rounded bg-color-3/10 p-5">
             <p className="uppercase text-color-3">
               Você não possui nenhum filme na lista de favoritos.
             </p>
