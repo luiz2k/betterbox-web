@@ -14,6 +14,9 @@ import {
   GetAllComments,
   GetAllCommentsData,
   DeleteComment,
+  ChangePicture,
+  GetPicture,
+  DeletePicture,
 } from "./Betterbox";
 
 import { getMovieById } from "../TMDB/TMDB";
@@ -530,6 +533,81 @@ export const deleteComment = async (data: DeleteComment) => {
   try {
     const response: Response = await fetch(
       `${apiURL}/movie/deleteComment`,
+      options,
+    );
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const changePicture = async (data: ChangePicture) => {
+  const session = await getSession();
+  const apiURL: string = data.apiBaseURL;
+
+  const options = {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${session?.accessToken}` },
+    body: data.form,
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/user/changePicture`,
+      options,
+    );
+
+    const blob: Blob = await response.blob();
+    const imageURL = URL.createObjectURL(blob);
+
+    return imageURL;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getPicture = async (data: GetPicture) => {
+  const session = await getSession();
+  const apiURL: string = data.apiBaseURL;
+
+  const options = {
+    method: "GET",
+    headers: { Authorization: `Bearer ${session?.accessToken}` },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/user/getPicture`,
+      options,
+    );
+
+    const blob: Blob = await response.blob();
+    const imageURL = URL.createObjectURL(blob);
+
+    return imageURL;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deletePicture = async (data: DeletePicture) => {
+  const session = await getSession();
+  const apiURL: string = data.apiBaseURL;
+
+  const options = {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${session?.accessToken}` },
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/user/deletePicture`,
       options,
     );
 

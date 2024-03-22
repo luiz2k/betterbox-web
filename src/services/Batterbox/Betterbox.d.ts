@@ -71,3 +71,14 @@ export type DeleteComment = {
   movieId: number;
   apiBaseURL: string;
 };
+
+export type ChangePicture = {
+  form: FormData;
+  apiBaseURL: string;
+};
+export type GetPicture = {
+  apiBaseURL: string;
+};
+export type DeletePicture = {
+  apiBaseURL: string;
+};
