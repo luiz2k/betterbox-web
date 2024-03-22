@@ -1,6 +1,7 @@
 import options from "@/app/api/auth/[...nextauth]/options";
 import ChangeEmail from "@/components/SettingsForms/ChangeEmail/ChangeEmail";
 import ChangePassword from "@/components/SettingsForms/ChangePassword/ChangePassword";
+import ChangePicture from "@/components/SettingsForms/ChangePicture/ChangePicture";
 import ChangeUsername from "@/components/SettingsForms/ChangeUsername/ChangeUsername";
 import { Metadata } from "next";
 import { Session, getServerSession } from "next-auth";
@@ -22,6 +23,10 @@ export default async function Settings() {
           </p>
         )}
       </header>
+
+      <ChangePicture apiURL={apiBaseURL} session={session} />
+
+      <hr className="m-auto max-w-xl" />
 
       <ChangeUsername apiURL={apiBaseURL} accessToken={session?.accessToken} />
 
