@@ -18,13 +18,15 @@ import { revalidateTag } from "next/cache";
 const AddToWatchedAndFavorite = async ({ movieId }: { movieId: number }) => {
   const session: Session | null = await getServerSession(options);
 
-  const watched: Watched = await getMovieWatched({ movieId });
-  const favorite: Favorite = await getFavoriteMovie({ movieId });
+  const watched: Watched | null =
+    session && (await getMovieWatched({ movieId }));
+  const favorite: Favorite | null =
+    session && (await getFavoriteMovie({ movieId }));
 
   const handleWatched = async (): Promise<void> => {
     "use server";
 
-    if (watched.status === "success") {
+    if (watched?.status === "success") {
       await removeFromWatched({ movieId });
       return revalidateTag("getMovieWatched");
     }
@@ -36,7 +38,7 @@ const AddToWatchedAndFavorite = async ({ movieId }: { movieId: number }) => {
   const handleFavorite = async (): Promise<void> => {
     "use server";
 
-    if (favorite.status === "success") {
+    if (favorite?.status === "success") {
       await removeFromFavorite({ movieId });
       return revalidateTag("getFavoriteMovie");
     }
