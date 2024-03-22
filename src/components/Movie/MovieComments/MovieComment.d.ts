@@ -20,4 +20,15 @@ export type MovieCommentsProps = {
   apiBaseURL: string;
 };
 
+export type CommentsType = {
+  user: {
+    picture: string;
+    id: number;
+    username: string;
+  };
+  commentedAt: string;
+  editedAt: string | null;
+  comment: string;
+}[];
+
 export type CreateComment = z.infer<typeof createCommentSchema>;

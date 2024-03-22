@@ -76,9 +76,16 @@ export type ChangePicture = {
   form: FormData;
   apiBaseURL: string;
 };
+
 export type GetPicture = {
   apiBaseURL: string;
 };
+
+export type GetPictureById = {
+  apiBaseURL: string;
+  userId: number;
+};
+
 export type DeletePicture = {
   apiBaseURL: string;
 };

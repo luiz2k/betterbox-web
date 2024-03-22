@@ -21,10 +21,9 @@ export async function generateMetadata({
 
 export default async function Movie({ params }: { params: { id: string } }) {
   const movieId: number = Number(params.id);
+  const apiBaseURL: string = process.env.API_BASE_URL;
 
   const movieComments: Comments = await getAllComments({ movieId });
-
-  const apiBaseURL: string = process.env.API_BASE_URL;
 
   return (
     <div className="m-auto max-w-3xl space-y-10">

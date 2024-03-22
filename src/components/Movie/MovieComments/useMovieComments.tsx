@@ -1,6 +1,10 @@
 "use client";
 
-import { createComment, deleteComment } from "@/services/Batterbox/Batterbox";
+import {
+  createComment,
+  deleteComment,
+  getPictureById,
+} from "@/services/Batterbox/Batterbox";
 import { createCommentSchema } from "@/validations/movieValidation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
@@ -8,6 +12,9 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import type { CreateComment, MovieCommentsProps } from "./MovieComment.d";
+import { useEffect, useState } from "react";
+
+import { CommentsType } from "./MovieComment.d";
 
 const useMovieComments = ({
   movieId,
@@ -56,6 +63,27 @@ const useMovieComments = ({
     }
   };
 
+  const [comments, setComments] = useState<CommentsType>([]);
+
+  useEffect(() => {
+    (async () => {
+      const commentWithPictures = movieComments.data.map(async (comment) => {
+        return {
+          ...comment,
+          user: {
+            ...comment.user,
+            picture: comment.user.picture
+              ? await getPictureById({ apiBaseURL, userId: comment.user.id })
+              : "/defaultAvatar.jpg",
+          },
+        };
+      });
+
+      const comments: CommentsType = await Promise.all(commentWithPictures);
+      setComments(comments);
+    })();
+  }, [apiBaseURL, movieComments.data]);
+
   return {
     register,
     handleFormSubmit,
@@ -63,6 +91,7 @@ const useMovieComments = ({
     handleSubmit,
     session,
     errors,
+    comments,
     commented,
   };
 };

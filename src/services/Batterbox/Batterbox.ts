@@ -17,6 +17,7 @@ import {
   ChangePicture,
   GetPicture,
   DeletePicture,
+  GetPictureById,
 } from "./Betterbox";
 
 import { getMovieById } from "../TMDB/TMDB";
@@ -583,6 +584,31 @@ export const getPicture = async (data: GetPicture) => {
   try {
     const response: Response = await fetch(
       `${apiURL}/user/getPicture`,
+      options,
+    );
+
+    const blob: Blob = await response.blob();
+    const imageURL = URL.createObjectURL(blob);
+
+    return imageURL;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getPictureById = async (data: GetPictureById) => {
+  const apiURL: string = data.apiBaseURL;
+
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userId: data.userId }),
+  };
+
+  try {
+    const response: Response = await fetch(
+      `${apiURL}/user/getPictureById`,
       options,
     );
 
