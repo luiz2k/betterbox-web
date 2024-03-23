@@ -14,6 +14,12 @@ const nextConfig = {
         port: "",
         pathname: "/t/p/w500/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.imgur.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
 };
