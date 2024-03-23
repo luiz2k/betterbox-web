@@ -20,7 +20,6 @@ const MovieComments = ({
     register,
     handleSubmit,
     session,
-    comments,
     commented,
   } = useMovieComments({
     movieComments,
@@ -70,9 +69,9 @@ const MovieComments = ({
         </form>
       )}
 
-      {comments?.length ? (
+      {movieComments.data?.length ? (
         <>
-          {comments?.map((comment) => (
+          {movieComments.data?.map((comment) => (
             <article
               key={comment.user.id + comment.commentedAt}
               className="overflow-hidden p-2 duration-200 hover:bg-color-3/5"
@@ -95,7 +94,7 @@ const MovieComments = ({
               <div className="flex flex-wrap items-center gap-2">
                 <div className="size-10">
                   <Image
-                    src={comment.user.picture}
+                    src={comment.user.picture || "/defaultAvatar.jpg"}
                     width={40}
                     height={40}
                     alt="Avatar"

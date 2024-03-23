@@ -3,7 +3,7 @@ import { Session } from "next-auth";
 export type CropperImageProps = {
   session: Session | null;
   apiURL: string;
-  setImage: React.Dispatch<React.SetStateAction<string>>;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
   setStatus: React.Dispatch<any>;
   cropper: {
     src: string;

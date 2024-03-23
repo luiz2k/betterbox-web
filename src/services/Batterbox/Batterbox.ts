@@ -562,10 +562,9 @@ export const changePicture = async (data: ChangePicture) => {
       options,
     );
 
-    const blob: Blob = await response.blob();
-    const imageURL = URL.createObjectURL(blob);
+    const data = response.json();
 
-    return imageURL;
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
@@ -587,10 +586,9 @@ export const getPicture = async (data: GetPicture) => {
       options,
     );
 
-    const blob: Blob = await response.blob();
-    const imageURL = URL.createObjectURL(blob);
+    const data = response.json();
 
-    return imageURL;
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
@@ -612,10 +610,9 @@ export const getPictureById = async (data: GetPictureById) => {
       options,
     );
 
-    const blob: Blob = await response.blob();
-    const imageURL = URL.createObjectURL(blob);
+    const data = response.json();
 
-    return imageURL;
+    return data;
   } catch (error) {
     console.error(error);
     throw error;

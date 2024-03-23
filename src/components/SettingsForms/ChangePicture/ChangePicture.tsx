@@ -18,7 +18,7 @@ const ChangePicture = ({ apiURL, session }: ChangePictureProps) => {
 
   const { update } = useSession();
 
-  const [image, setImage] = useState<string>("/defaultAvatar.jpg");
+  const [image, setImage] = useState<string | null>(null);
 
   const [cropper, setCropper] = useState<null | { src: string; type: string }>(
     null,
@@ -40,18 +40,17 @@ const ChangePicture = ({ apiURL, session }: ChangePictureProps) => {
   };
 
   const handleDeletePicture = async () => {
-    const response = await deletePicture({ apiBaseURL: apiURL });
-    console.log(response);
+    await deletePicture({ apiBaseURL: apiURL });
 
     await update({
       ...session,
       user: {
         ...session?.user,
-        picture: false,
+        picture: null,
       },
     });
 
-    setImage("/defaultAvatar.jpg");
+    setImage(null);
 
     setStatus({
       status: "warning",
@@ -62,12 +61,12 @@ const ChangePicture = ({ apiURL, session }: ChangePictureProps) => {
   useEffect(() => {
     (async () => {
       if (session?.user.picture) {
-        const picture: string = await getPicture({ apiBaseURL: apiURL });
+        const picture = await getPicture({ apiBaseURL: apiURL });
 
-        return setImage(picture);
+        return setImage(picture.picture);
       }
 
-      setImage("/defaultAvatar.jpg");
+      setImage(null);
     })();
   }, [apiURL, session?.user.picture]);
 
@@ -86,15 +85,13 @@ const ChangePicture = ({ apiURL, session }: ChangePictureProps) => {
 
       <article className="m-auto flex max-w-xl flex-wrap gap-2">
         <div className="size-[8.625rem] rounded bg-color-3/15 p-2">
-          {image && (
-            <Image
-              src={image}
-              width={200}
-              height={200}
-              alt={"Avatar"}
-              className="rounded-full"
-            />
-          )}
+          <Image
+            src={image || "/defaultAvatar.jpg"}
+            width={200}
+            height={200}
+            alt={"Avatar"}
+            className="rounded-full"
+          />
         </div>
 
         <div className="space-y-2">
@@ -129,7 +126,7 @@ const ChangePicture = ({ apiURL, session }: ChangePictureProps) => {
               />
             </div>
 
-            {image !== "/defaultAvatar.jpg" && (
+            {image !== null && (
               <Button theme="green" onClick={handleDeletePicture} uppercase>
                 Remover
               </Button>

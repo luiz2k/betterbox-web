@@ -40,17 +40,17 @@ const CropperImage = ({
       canvas.toBlob(async (blob) => {
         if (blob) {
           form.append("imageFile", blob);
-          const response = await changePicture({ form, apiBaseURL: apiURL });
+          const picture = await changePicture({ form, apiBaseURL: apiURL });
 
           await update({
             ...session,
             user: {
               ...session?.user,
-              picture: true,
+              picture: picture.picture,
             },
           });
 
-          setImage(response);
+          setImage(picture.picture);
 
           setStatus({
             status: "success",
