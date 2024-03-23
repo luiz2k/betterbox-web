@@ -29,8 +29,6 @@ const useChangeEmail = ({ apiURL, accessToken }: ChangeEmailProps) => {
 
   const handleFormSubmit = async (data: ChangeEmailSchema) => {
     try {
-      console.log(data.email);
-
       const result = await changeEmail({ apiURL, ...data, accessToken });
 
       if (result.status === "success")
