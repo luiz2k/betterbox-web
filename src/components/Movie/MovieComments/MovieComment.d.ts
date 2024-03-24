@@ -12,7 +12,6 @@ export type MovieCommentsProps = {
       user: {
         id: number;
         username: string;
-        picture: string | null;
       };
     }[];
   };

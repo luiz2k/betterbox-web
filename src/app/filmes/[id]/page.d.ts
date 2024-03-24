@@ -19,7 +19,6 @@ export type Comments = {
     user: {
       id: number;
       username: string;
-      picture: string | null;
     };
   }[];
 };

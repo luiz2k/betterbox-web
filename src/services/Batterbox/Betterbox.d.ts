@@ -62,30 +62,11 @@ export type GetAllCommentsData = {
     user: {
       id: number;
       username: string;
-      picture: string | null;
     };
   }[];
 };
 
 export type DeleteComment = {
   movieId: number;
-  apiBaseURL: string;
-};
-
-export type ChangePicture = {
-  form: FormData;
-  apiBaseURL: string;
-};
-
-export type GetPicture = {
-  apiBaseURL: string;
-};
-
-export type GetPictureById = {
-  apiBaseURL: string;
-  userId: number;
-};
-
-export type DeletePicture = {
   apiBaseURL: string;
 };

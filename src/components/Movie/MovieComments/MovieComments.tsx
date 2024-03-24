@@ -94,7 +94,7 @@ const MovieComments = ({
               <div className="flex flex-wrap items-center gap-2">
                 <div className="size-10">
                   <Image
-                    src={comment.user.picture || "/defaultAvatar.jpg"}
+                    src={"/defaultAvatar.jpg"}
                     width={40}
                     height={40}
                     alt="Avatar"
